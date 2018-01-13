@@ -1,34 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import registerServiceWorker from 'Src/registerServiceWorker'
 
-import './stylesheets/main.scss'
-
-import App from './App'
-import registerServiceWorker from './registerServiceWorker'
+import Root from 'Src/root'
+import configureStore from 'Src/store'
+import history from 'Src/history'
+import 'Stylesheets/main.scss'
 
 
 const rootEl = document.getElementById('root')
+const { persistor, store } = configureStore()
 
 ReactDOM.render(
   <AppContainer>
-    <App />
+    <Root store={store} persistor={persistor} history={history} />
   </AppContainer>,
   rootEl
 )
 
 registerServiceWorker()
 
-
 // Hot Reloader: http://joshbroton.com/add-react-hot-reloading-create-react-app/
 if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default; // eslint-disable-line global-require
-    ReactDOM.render(
-      <AppContainer>
-        <NextApp />
-      </AppContainer>,
-      rootEl
-    )
-  })
+  module.hot.accept()
 }

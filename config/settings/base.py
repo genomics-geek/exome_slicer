@@ -50,9 +50,7 @@ DJANGO_APPS = [
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
-    
 
-    
     # Django REST framework: http://www.django-rest-framework.org/#installation
     'rest_framework',
     'rest_framework.authtoken',
@@ -69,7 +67,7 @@ THIRD_PARTY_APPS = [
 
     # Integrate webpack with Django: https://github.com/ezhome/django-webpack-loader
     'webpack_loader'
-    
+
 ]
 
 # Apps specific for this project go here.
@@ -267,7 +265,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 
@@ -289,7 +286,7 @@ ADMIN_URL = r'^admin/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
