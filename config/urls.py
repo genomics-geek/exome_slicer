@@ -10,7 +10,7 @@ from rest_framework_jwt import views as jwt_views
 
 
 urlpatterns = [
-    
+
     url(settings.ADMIN_URL, admin.site.urls),
     url(r'^app/', TemplateView.as_view(template_name="index.html")),
 
@@ -27,8 +27,8 @@ urlpatterns = [
     url(r'^api-token-verify/', jwt_views.verify_jwt_token),
 
     # API documentation
-    url(r'^docs/', include_docs_urls(title='Exome Slicer API')),
-    
+    url(r'^docs/', include_docs_urls(title='Exome Slicer API', public=False)),
+
 
     # Your stuff: custom urls includes go here
 
