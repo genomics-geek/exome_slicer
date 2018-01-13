@@ -1,0 +1,5 @@
+[run]
+include = exome_slicer/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
