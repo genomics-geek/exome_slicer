@@ -1,0 +1,113 @@
+// CHOP Brand guidelines
+// https://coolors.co/005587-ed1f7f-005587-58595b-a7a9ab
+// https://coolors.co/005587-ed1f7f-005587-91a01e-786452
+$brand-light-blue: #1FB6FF;
+$brand-dark-blue: #009EEB;
+$brand-light-grey: #A7A9AB;
+$brand-dark-grey: #58595B;
+$brand-pink: #FF49DB;
+$brand-green: #13CE66;
+$brand-brown: #786452;
+$brand-white: #FFFFFF;
+
+
+// Layout colors
+
+$foreground: #ADADAD;
+$background: #F9F9F9;
+
+// Action color theme
+
+$action-info: #1C77C3;  // Standard colors (dark/light): 276F86/A9D5DE
+$action-success: #13CE66;  // Standard colors (dark/light): 2C662D/A3C293
+$action-warning: #FFC82C;  // Standard colors (dark/light): 573A08/C9BA9B
+$action-error: #FF4949;  // Standard colors (dark/light): 9F3A38/E0B4B4
+
+// Table colors
+
+$th-background: #F9FAFB;
+
+$brand-black: #1F2D3D;
+$brand-steel: #273444;
+$brand-slate: #3C4858;
+$brand-silver: #8492A6;
+
+$brand-light-smoke: #E0E6ED;
+$brand-dark-smoke: #D3DCE6;
+$brand-light-snow: #F9FAFC;
+$brand-dark-snow: #EFF2F7;
+
+
+// GenomiX color theme
+
+$genomix-colors: (
+  // Access via color name
+  'light-blue': $brand-light-blue,
+  'dark-blue': $brand-dark-blue,
+  'light-grey': $brand-light-grey,
+  'dark-grey': $brand-dark-grey,
+  'pink': $brand-pink,
+  'green': $brand-green,
+  'brown': $brand-brown,
+  'white': $brand-white,
+
+  'black': $brand-black,
+  'steel': $brand-steel,
+  'slate': $brand-slate,
+  'silver': $brand-silver,
+
+  'light-smoke': $brand-light-smoke,
+  'dark-smoke': $brand-dark-smoke,
+  'light-snow': $brand-light-snow,
+  'dark-snow': $brand-dark-snow,
+
+  // Access via theme
+  'base': $brand-white,
+  'primary': $brand-light-blue,
+  'accent': $brand-pink,
+  'secondary': $brand-dark-blue,
+  'tertiary': $brand-green,
+
+  'foreground': $foreground,
+  'background': $background,
+
+  // Access via action
+  'action-info': $action-info,
+  'action-success': $action-success,
+  'action-warning': $action-warning,
+  'action-error': $action-error,
+  'action-attention': $action-info,
+  'action-positive': $action-success,
+  'action-caution': $action-warning,
+  'action-negative': $action-error,
+
+  // Table colors
+  'th-background': $th-background,
+);
+
+$color-interval: 10% !global;
+
+// Functions
+
+@function genomix-color($key: 'primary') {
+  @return map-get($genomix-colors, $key);
+}
+
+@function genomix-color-level($color-name: 'primary', $level: 0) {
+  $color: genomix-color($color-name);
+  $color-base: if($level < 0, black, white);
+
+  @return mix($color-base, $color, $level * $color-interval);
+}
+
+@function genomix-color-darken($color-name: 'primary', $amount: 0) {
+  $color: genomix-color($color-name);
+
+  @return darken($color, $amount);
+}
+
+@function genomix-color-lighten($color-name: 'primary', $amount: 0) {
+  $color: genomix-color($color-name);
+
+  @return lighten($color, $amount);
+}

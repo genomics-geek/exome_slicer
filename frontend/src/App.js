@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import * as Genomix from 'react-genomix'
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <br/>
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h2 className="App-title">Welcome to ExomeSlicer</h2>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>frontend/src/App.js</code> and save to reload.
         </p>
+        <p className="App-description">
+          Stylesheets have been added to <code>frontend/src/</code> folder.
+        </p>
+        <Genomix.Button content="Cancel" icon="cancel" color="action-error" inverted />
+        <Genomix.Button content="button" icon="add"/>
+        <Genomix.AcceptButton />
+        <br/>
+        <br/>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+
+export default App

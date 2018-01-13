@@ -1,0 +1,12 @@
+@import "~semantic-ui-css/semantic.min.css";
+@import "partials/base";
+
+/* Partials */
+@import "partials/app";
+
+
+/* global styles */
+body {
+  font-family: $font-family;
+  background: genomix-color('light-snow');
+}
