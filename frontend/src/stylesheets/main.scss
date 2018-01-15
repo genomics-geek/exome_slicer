@@ -1,8 +1,11 @@
-@import "~semantic-ui-css/semantic.min.css";
-@import "partials/base";
+@import "~react-genomix/dist/react-genomix.min.css";
 
 /* Partials */
 @import "partials/app";
+@import "partials/base";
+@import "partials/core";
+@import "partials/home";
+@import "partials/tables";
 
 
 /* global styles */

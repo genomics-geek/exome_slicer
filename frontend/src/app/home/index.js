@@ -1,26 +1,32 @@
 import React from 'react'
-import * as Genomix from 'react-genomix'
+import { Grid } from 'semantic-ui-react'
+
+import AboutSection from './components/about-section'
+import RecentNews from './components/recent-news'
+import WelcomeBanner from './components/welcome-banner'
 
 
-const Home = () => (
-  <div className="App">
-    <br/>
-    <header className="App-header">
-      <h2 className="App-title">Welcome to ExomeSlicer</h2>
-    </header>
-    <p className="App-intro">
-      To get started, edit <code>frontend/src/App.js</code> and save to reload.
-    </p>
-    <p className="App-description">
-      Stylesheets have been added to <code>frontend/src/</code> folder.
-    </p>
-    <Genomix.Button content="Cancel" icon="cancel" color="action-error" inverted />
-    <Genomix.Button content="button" icon="add"/>
-    <Genomix.AcceptButton />
-    <br/>
-    <br/>
-  </div>
-)
+class Home extends React.PureComponent {
+  render() {
+    return (
+      <React.Fragment>
+
+        <WelcomeBanner />
+
+        <Grid padded className="about-section">
+          <Grid.Column width={10}>
+            <AboutSection />
+          </Grid.Column>
+
+          <Grid.Column width={6}>
+            <RecentNews />
+          </Grid.Column>
+        </Grid>
+
+      </React.Fragment>
+    )
+  }
+}
 
 
 export default Home

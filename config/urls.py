@@ -12,7 +12,8 @@ from rest_framework_jwt import views as jwt_views
 urlpatterns = [
 
     url(settings.ADMIN_URL, admin.site.urls),
-    url(r'^app/', TemplateView.as_view(template_name="index.html")),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
+    url(r'^app/(?P<route>.*)$', TemplateView.as_view(template_name="index.html"), name='app'),
 
     # REST framework
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

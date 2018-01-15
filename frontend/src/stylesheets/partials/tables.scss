@@ -1,0 +1,9 @@
+.public_fixedDataTableRow_main.warning .public_fixedDataTableCell_main {
+  background-color: genomix-color('action-warning');
+  color: genomix-color('black');
+}
+
+.public_fixedDataTableRow_main.error .public_fixedDataTableCell_main {
+  background-color: genomix-color('action-error');
+  color: genomix-color('black');
+}
