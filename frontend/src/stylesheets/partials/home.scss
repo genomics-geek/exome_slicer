@@ -1,0 +1,50 @@
+.banner {
+  text-align: center;
+  background-color: genomix-color('black');
+}
+
+.title {
+  padding-top: 25px;
+  font-family: $font-family;
+  color: genomix-color('black');
+}
+
+.detail {
+  padding-top: 0px;
+}
+
+.info {
+  font-size: 18px;
+}
+
+.banner.title {
+  color: genomix-color('white');
+}
+
+.banner.info {
+  color: genomix-color('white');
+}
+
+.ui.grid > .row.banner.detail {
+  color: genomix-color('dark-smoke');
+}
+
+.ui.grid > .row.banner.action {
+  padding-bottom: 25px;
+}
+
+.about-section {
+  text-align: left;
+}
+
+.about.title {
+  text-align: center;
+}
+
+.recent-news.title {
+  text-align: left;
+}
+
+.ui.list.recent-news {
+  font-size: 18px;
+}

@@ -1,24 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
-import { persistStore, persistCombineReducers } from 'redux-persist'
+import { persistStore } from 'redux-persist'
 import { createLogger } from 'redux-logger'
-import localForage from 'localforage'
 import thunk from 'redux-thunk'
 
 import rootReducer from 'Src/reducers'
 import history from 'Src/history'
 import DevTools from 'Src/root/dev-tools'
 
-
-const persistConfig = {
-  key: 'root',
-  storage: localForage,
-  blacklist: [
-    'routing',
-  ],
-}
-
-const reducer = persistCombineReducers(persistConfig, rootReducer)
 
 const enhancer = compose(
   // Middleware you want to use in development
@@ -32,21 +21,21 @@ const enhancer = compose(
 const configureStore = (initialState) => {
 
   const store = createStore(
-    reducer,
+    rootReducer,
     initialState,
     enhancer
   )
 
-  const persistor = persistStore(store)
-
   // Hot Reload reducers
-  // Note: Requires Webpack or Browserify HMR to be enabled
   if (module.hot) {
-    module.hot.accept('Src/reducers', () => {
-      const nextRootReducer = require('Src/reducers.js')
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers')
       store.replaceReducer(nextRootReducer)
     })
   }
+
+  const persistor = persistStore(store)
 
   return { persistor, store }
 }
