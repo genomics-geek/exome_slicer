@@ -1,0 +1,3 @@
+---
+code_version: develop
+django_settings: config.settings.production

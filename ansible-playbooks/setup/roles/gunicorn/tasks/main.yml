@@ -1,0 +1,10 @@
+---
+- name: Create Gunicorn logs directory
+  file: path={{ project_home }}/logs/gunicorn owner={{ svc_user }} group={{ svc_group }} state=directory mode=0777
+  become: true
+
+- name: restart exomeslicer
+  service: name={{ item }} state=restarted enabled=yes
+  with_items:
+    - exomeslicer
+  become: true

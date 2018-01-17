@@ -1,0 +1,8 @@
+[localhost]
+localhost
+
+[staging]
+dgddev01.chop.edu
+
+[production]
+exomeslicer.chop.edu
