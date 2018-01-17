@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Checkbox, Dropdown, FormGroup, FormInput } from 'semantic-ui-react'
-import { AutoCompleteDropDown, Button, SaveFormModal } from 'react-genomix'
-import { get } from 'lodash'
+import { Checkbox, FormGroup, FormInput } from 'semantic-ui-react'
+import { Button, SaveFormModal } from 'react-genomix'
+
+import GeneDropdown from '../containers/gene-dropdown'
+import TranscriptDropdown from '../containers/transcript-dropdown'
 
 
 class SearchForm extends React.PureComponent {
@@ -11,92 +13,92 @@ class SearchForm extends React.PureComponent {
 
     this.state = {
       mode: props.mode,
-      loading: props.loading,
-      geneOptions: props.geneOptions,
-      transcriptOptions: props.transcriptOptions,
+      genes: props.genes,
+      transcripts: props.transcripts,
+      coverage: props.coverage,
+      quality: props.quality,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { loading, mode, geneOptions, transcriptOptions } = this.props
-
-    if (loading !== nextProps.loading) {
-      this.setState({ loading:  nextProps.loading })
-    }
+    const { mode, genes, transcripts, coverage, quality } = this.props
 
     if (mode !== nextProps.mode) {
       this.setState({ mode:  nextProps.mode })
     }
 
-    if (geneOptions !== nextProps.geneOptions) {
-      this.setState({ geneOptions:  nextProps.geneOptions })
+    if (genes !== nextProps.genes) {
+      this.setState({ genes:  nextProps.genes })
     }
 
-    if (transcriptOptions !== nextProps.transcriptOptions) {
-      this.setState({ transcriptOptions:  nextProps.transcriptOptions })
+    if (transcripts !== nextProps.transcripts) {
+      this.setState({ transcripts:  nextProps.transcripts })
+    }
+
+    if (coverage !== nextProps.coverage) {
+      this.setState({ coverage:  nextProps.coverage })
+    }
+
+    if (quality !== nextProps.quality) {
+      this.setState({ quality:  nextProps.quality })
     }
   }
 
-  onChange = (e, { name, value }) => {
-      this.setState({
-        [name]: value
-      })
-  }
-
-  onSubmit = data => {
-    const { geneSearch, transcriptSearch, updateFilter,  } = this.props
-    const { mode } = this.state
-    updateFilter('mode', mode)
-
-    const gene = get(data, 'gene', undefined)
-    if (gene) {
-      // geneSearch(gene)
-      // transcriptSearch(gene)
+  handleChange = (e, { name, value }) => {
+    const { updateFilter, searchAction } = this.props
+    if (updateFilter) {
+      updateFilter(name, value)
     }
 
-    Object.keys(data).forEach((key) => {
-      updateFilter(key, data[key])
-    })
+    // NOTE: This is to update transcripts
+    if (name === 'genes') {
+      searchAction('transcripts', `?genes=${value}`)
+    }
+  }
+
+  handleSubmit = data => {
+    const { genes } = data
+
+    if (genes) {
+      const { searchAction } = this.props
+      searchAction('stats', `?genes=${genes}&limit=3500`)
+    }
   }
 
   render() {
-    const { mode, loading, geneOptions, transcriptOptions } = this.state
+    const { mode, genes, coverage, quality } = this.state
 
     return (
       <SaveFormModal
         trigger={<Button icon="filter" color="dark-blue" inverted content="Filter" />}
         formId="gene-search"
         title="Search Filters"
-        onSubmit={this.onSubmit}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+        defaultValues={this.state}
       >
         <FormInput
           label="Gene"
-          name="gene"
-          control={AutoCompleteDropDown}
-          search
-          selection
-          endpoint="testAPI?search="
-          onChange={(props) => alert(JSON.stringify(props))}
-          searchAction={(props) => alert(JSON.stringify(props))}
-          options={geneOptions}
-          loading={loading}
+          name="genes"
+          control={GeneDropdown}
+          defaultValue={genes}
         />
         <FormInput
           label="Transcript"
-          name="transcript"
-          control={Dropdown}
-          selection
-          options={transcriptOptions}
+          name="transcripts"
+          control={TranscriptDropdown}
         />
         <FormInput
           label="Avg. Mapping Quality"
           name="quality"
           type="number"
+          defaultValue={quality}
         />
         <FormInput
           label="Min. Depth"
           name="coverage"
           type="number"
+          defaultValue={coverage}
         />
         <FormGroup>
           <FormInput
@@ -104,7 +106,7 @@ class SearchForm extends React.PureComponent {
             name="mode"
             control={Checkbox}
             radio
-            onChange={this.onChange}
+            onChange={this.handleChange}
             checked={mode === 'mapping_quality'}
             value="mapping_quality"
           />
@@ -113,7 +115,7 @@ class SearchForm extends React.PureComponent {
             name="mode"
             control={Checkbox}
             radio
-            onChange={this.onChange}
+            onChange={this.handleChange}
             checked={mode === 'depth'}
             value="depth"
           />
@@ -126,24 +128,18 @@ class SearchForm extends React.PureComponent {
 
 SearchForm.propTypes = {
   updateFilter: PropTypes.func.isRequired,
-  geneSearch: PropTypes.func.isRequired,
-  transcriptSearch: PropTypes.func.isRequired,
+  searchAction: PropTypes.func.isRequired,
   mode: PropTypes.string,
-  loading: PropTypes.bool,
-  geneOptions: PropTypes.arrayOf(
-    PropTypes.shape({})
-  ),
-  transcriptOptions: PropTypes.arrayOf(
-    PropTypes.shape({})
-  ),
+  genes: PropTypes.string,
+  coverage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  quality: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 
 SearchForm.defaultProps = {
   mode: 'depth',
-  loading: false,
-  geneOptions: [],
-  transcriptOptions: [],
+  coverage: 15,
+  quality: 20,
 }
 
 

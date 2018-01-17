@@ -1,22 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
-import { persistStore, persistCombineReducers } from 'redux-persist'
-import localForage from 'localforage'
+import { persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
 
 import rootReducer from 'Src/reducers'
 import history from 'Src/history'
 
-
-const persistConfig = {
-  key: 'persistKey',
-  storage: localForage,
-  blacklist: [
-    'routing',
-  ],
-}
-
-const reducer = persistCombineReducers(persistConfig, rootReducer)
 
 const enhancer = compose(
   // Middleware you want to use in production
@@ -29,7 +18,7 @@ const enhancer = compose(
 const configureStore = (initialState) => {
 
   const store = createStore(
-    reducer,
+    rootReducer,
     initialState,
     enhancer
   )

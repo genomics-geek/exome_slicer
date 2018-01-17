@@ -1,4 +1,5 @@
 import React from 'react'
+import { List } from 'semantic-ui-react'
 
 
 class AboutSection extends React.PureComponent {
@@ -15,7 +16,7 @@ class AboutSection extends React.PureComponent {
         <p className="home info">
           Our pre-print publication can be found
           <a
-            href="https://www.google.com"
+            href="https://www.biorxiv.org/content/early/2018/01/16/248906"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -23,6 +24,29 @@ class AboutSection extends React.PureComponent {
           </a>
           Please cite this publication if you use this resource in your work.
         </p>
+        <p className="home info">
+          This is a beta site and we encourage users to contact us with bugs or feature suggestions.
+        </p>
+        <List bulleted>
+
+          <List.Item>
+            Errors in the website can be reported via
+            <a
+              href="https://github.com/genomics-geek/exome_slicer/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              &nbsp;GitHub.&nbsp;
+            </a>
+          </List.Item>
+
+          <List.Item>
+            You can also contact us by
+            <a href="mailto:dgdbfx@email.chop.edu?Subject=ExomeSlicer%20request" target="_top">&nbsp;email&nbsp;</a>
+            to report data problems or feature suggestions.
+          </List.Item>
+        </List>
+
       </React.Fragment>
     )
   }

@@ -6,7 +6,7 @@ import registerServiceWorker from 'Src/registerServiceWorker'
 import Root from 'Src/root'
 import configureStore from 'Src/store'
 import history from 'Src/history'
-import 'Stylesheets/main.scss'
+// import 'Stylesheets/main.scss'
 
 
 const rootEl = document.getElementById('root')
