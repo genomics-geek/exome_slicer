@@ -3,9 +3,9 @@ Exome Slicer
 
 Evaluate quality of sequencing when developing an Exome Slice (NGS virtual panel)
 
-Exomeslicer can be found `here <http://exomeslicer.chop.edu/>`_
-Exomeslicer REST API can be found `here <http://exomeslicer.chop.edu/api/>`_
-Exomeslicer REST API docs can be found `here <http://exomeslicer.chop.edu/docs/>`_
+* Exomeslicer can be found `here <http://exomeslicer.chop.edu/>`_
+* Exomeslicer REST API can be found `here <http://exomeslicer.chop.edu/api/>`_
+* Exomeslicer REST API docs can be found `here <http://exomeslicer.chop.edu/docs/>`_
 
 If you use ExomeSlicer in your work, please cite our `publication <https://www.biorxiv.org/content/early/2018/01/16/248906>`_
 
