@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
 
-import GeneSearchInput from './gene-search-input'
+import GeneDropdown from '../containters/gene-dropdown'
 
 
 class WelcomeBanner extends React.PureComponent {
@@ -29,7 +29,7 @@ class WelcomeBanner extends React.PureComponent {
 
         <Grid.Row className="banner action">
           <Grid.Column width={8}>
-              <GeneSearchInput />
+              <GeneDropdown name="genes" fluid />
           </Grid.Column>
 
         </Grid.Row>

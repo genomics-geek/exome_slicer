@@ -75,6 +75,7 @@ LOCAL_APPS = [
     # custom users app
     'exome_slicer.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'exome_slicer.quality_stats',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -1,13 +1,15 @@
 import { connect } from 'react-redux'
+import { get } from 'lodash'
 
 import Chart from '../components/chart'
 
 
 const mapStateToProps = state => ({
-  mode: state.mode.mode,
-  transcript: state.transcript.transcript,
-  coverageFilter: state.coverage.coverage,
-  qualityFilter: state.quality.quality,
+  stats: state.stats,
+  mode: get(state.mode, 'mode'),
+  transcripts: get(state.transcripts, 'transcripts'),
+  coverage: get(state.coverage, 'coverage'),
+  quality: get(state.quality, 'quality'),
 })
 
 

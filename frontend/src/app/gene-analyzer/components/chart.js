@@ -11,55 +11,90 @@ import {
   VictoryTheme,
   VictoryTooltip,
 } from 'victory'
-import { get, map, merge } from 'lodash'
+import { get, has, map, merge } from 'lodash'
 
 
 class Chart extends React.PureComponent {
+  static prepareData(props, state) {
+    const { passColor, warningColor, errorColor } = props
+    const { rows, coverage, quality } = state
+    const data = {}
+
+    map(rows, element => {
+
+      const depth = get(element, 'min_coverage')
+      const mappingQuality = get(element, 'avg_mapping_quality')
+      const newData = {}
+      if (depth <= coverage && mappingQuality <= quality) {
+        newData.fill = errorColor
+        newData.stroke = errorColor
+      } else if (depth <= coverage || mappingQuality <= quality) {
+        newData.fill = warningColor
+        newData.stroke = warningColor
+      } else {
+        newData.fill = passColor
+        newData.stroke = passColor
+      }
+
+      const coloredData = merge(element, newData)
+
+      if (has(data, element.transcript)) {
+        data[element.transcript].push(coloredData)
+      } else {
+        data[element.transcript] = [coloredData]
+      }
+    })
+
+    return data
+  }
+
   constructor(props) {
     super(props)
 
+    const rows = get(props.stats, 'data.results', [])
+    const loading = get(props.stats, 'loading', false)
+    const coverage = parseInt(props.coverage, 10)
+    const quality = parseInt(props.quality, 10)
+
     this.state = {
-      data: props.data,
-      loading: props.loading,
+      rows,
+      loading,
       mode: props.mode,
-      transcript: props.transcript,
-      coverageFilter: parseInt(props.coverageFilter, 10),
-      qualityFilter: parseInt(props.qualityFilter, 10),
+      transcripts: props.transcripts,
+      coverage,
+      quality,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const {
-      data,
-      loading,
+      stats,
       mode,
-      transcript,
-      coverageFilter,
-      qualityFilter
+      transcripts,
+      coverage,
+      quality,
     } = this.props
 
-    if (data !== nextProps.data) {
-      this.setState({ data:  nextProps.data })
-    }
-
-    if (loading !== nextProps.loading) {
-      this.setState({ loading:  nextProps.loading })
+    if (stats !== nextProps.stats) {
+      const rows = get(nextProps.stats, 'data.results', [])
+      const loading = get(nextProps.stats, 'loading', false)
+      this.setState({ rows, loading })
     }
 
     if (mode !== nextProps.mode) {
       this.setState({ mode:  nextProps.mode })
     }
 
-    if (transcript !== nextProps.transcript) {
-      this.setState({ transcript:  nextProps.transcript })
+    if (transcripts !== nextProps.transcripts) {
+      this.setState({ transcripts:  nextProps.transcripts })
     }
 
-    if (coverageFilter !== nextProps.coverageFilter) {
-      this.setState({ coverageFilter:  parseInt(nextProps.coverageFilter, 10) })
+    if (coverage !== nextProps.coverage) {
+      this.setState({ coverage:  parseInt(nextProps.coverage, 10) })
     }
 
-    if (qualityFilter !== nextProps.qualityFilter) {
-      this.setState({ qualityFilter:  parseInt(nextProps.qualityFilter, 10) })
+    if (quality !== nextProps.quality) {
+      this.setState({ quality:  parseInt(nextProps.quality, 10) })
     }
   }
 
@@ -73,56 +108,37 @@ class Chart extends React.PureComponent {
       max mapping quality: ${datum.max_mapping_quality}`
   }
 
-  addFill = () => {
-    const { data, coverageFilter, qualityFilter } = this.state
-    const { passColor, warningColor, errorColor } = this.props
-    const colorData = []
-
-    map(data, element => {
-      const coverage = get(element, 'min_coverage')
-      const quality = get(element, 'avg_mapping_quality')
-      const colors = {}
-
-      if (coverage <= coverageFilter && quality <= qualityFilter) {
-        colors.fill = errorColor
-        colors.stroke = errorColor
-      } else if (coverage <= coverageFilter || quality <= qualityFilter) {
-        colors.fill = warningColor
-        colors.stroke = warningColor
-      } else {
-        colors.fill = passColor
-        colors.stroke = passColor
-      }
-
-      const coloredData = merge(element, colors)
-      colorData.push(coloredData)
-    })
-
-    return colorData
-  }
-
   render() {
     const { passColor, warningColor, errorColor } = this.props
-    const { loading, data, mode } = this.state
+    const { rows, mode, transcripts, loading } = this.state
+    const data = Chart.prepareData(this.props, this.state)
 
-    let tickCount = data.length
-    let domainPadding = { x: 65, y: 25 }
-    if (tickCount > 45) {
-      tickCount = parseInt(tickCount / 5, 10)
-      domainPadding = { x: 10, y: 10 }
+    let transcript = transcripts
+    if (!has(data, transcript) & rows.length > 0) {
+      transcript = rows[0].transcript
     }
+
+    const plotData = get(data, transcript, [])
+
+    let domainPadding = { x: 65, y: 25 }
+    let tickCount = plotData.length > 0 ? plotData.length : 1
+    if (plotData.length > 25) {
+      domainPadding = { x: 10, y: 10 }
+      tickCount = 25
+    }
+
 
     let yAxisLabel = 'Depth'
     let open = 'max_coverage'
     let close = 'min_coverage'
+    let avg = 'avg_coverage'
 
     if (mode !== 'depth') {
       yAxisLabel = 'Mapping Quality'
       open = 'max_mapping_quality'
       close = 'min_mapping_quality'
+      avg = 'avg_mapping_quality'
     }
-
-    const coloredData = this.addFill()
 
     return (
       <Dimmer.Dimmable dimmed={loading}>
@@ -132,14 +148,14 @@ class Chart extends React.PureComponent {
         <VictoryChart
           theme={VictoryTheme.material}
           domainPadding={domainPadding}
-          width={1500}
+          width={1300}
         >
           <VictoryLegend
             x={100}
             y={10}
             centerTitle
             orientation="horizontal"
-            style={{ border: { stroke: "black" }, title: {fontSize: 20 } }}
+            style={{ border: { stroke: "black" }, labels: { fontSize: 10 } }}
             data={[
               { name: "Pass", symbol: { fill: passColor } },
               { name: "Warning", symbol: { fill: warningColor } },
@@ -152,39 +168,40 @@ class Chart extends React.PureComponent {
             tickCount={tickCount}
             tickFormat={(t) => `${parseInt(t, 10)}`}
             style={{
-              axisLabel: { fontSize: 15 },
-              tickLabels: { fontSize: 12 }
+              axisLabel: { fontSize: 12 },
+              tickLabels: { fontSize: 10 }
             }}
           />
           <VictoryAxis
             dependentAxis
-            axisLabelComponent={<VictoryLabel dy={-25} />}
+            axisLabelComponent={<VictoryLabel dy={-30} />}
             label={yAxisLabel}
-            tickCount={tickCount}
+            tickCount={10}
             tickFormat={(t) => `${parseInt(t, 10)}`}
             style={{
-              axisLabel: { fontSize: 15 },
-              tickLabels: { fontSize: 12 }
+              axisLabel: { fontSize: 12 },
+              tickLabels: { fontSize: 10 }
             }}
           />
           <VictoryCandlestick
             style={{
               data: {
-                fillOpacity: 0.75,
-                strokeWidth: 3,
+                fillOpacity: 0.35,
+                strokeWidth: 1.5,
               }
             }}
-            data={coloredData}
-            dataComponent={<Candle width={750} />}
-            high={open}  // TODO:  Add std. dev to the dataset
+            data={plotData}
+            dataComponent={<Candle width={800} />}
+            high={(datum) => datum[avg] + 1}  // TODO:  Add std. dev to the dataset
             open={open}
-            low={close}  // TODO:  Add std. dev to the dataset
+            low={(datum) => datum[avg] - 1}  // TODO:  Add std. dev to the dataset
             close={close}
             x="cds_exon"
             labels={(d) => d.cds_exon}
             labelComponent={
               <VictoryTooltip
-                flyoutStyle={{ fill: 'white', fillOpacity: 0.90 }}
+                flyoutStyle={{ fill: 'white', fillOpacity: 0.70 }}
+                style={{ fontSize: 12 }}
                 height={110}
                 width={175}
                 cornerRadius={20}
@@ -202,30 +219,38 @@ class Chart extends React.PureComponent {
 
 
 Chart.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      locus: PropTypes.string,
-      gene: PropTypes.string,
-      transcript: PropTypes.string,
-      cds_exon: PropTypes.number,
-      number_of_baits: PropTypes.number,
-      bases_covered_by_baits: PropTypes.number,
-      number_of_bases_in_region: PropTypes.number,
-      pct_bases_covered_by_baits: PropTypes.number,
-      avg_mapping_quality: PropTypes.number,
-      min_mapping_quality: PropTypes.number,
-      max_mapping_quality: PropTypes.number,
-      avg_coverage: PropTypes.number,
-      min_coverage: PropTypes.number,
-      max_coverage: PropTypes.number,
-    })
-  ),
-  loading: PropTypes.bool,
+  stats: PropTypes.shape({
+    loading: PropTypes.bool,
+    requestType: PropTypes.string,
+    status: PropTypes.number,
+    data: PropTypes.shape({
+      count: PropTypes.number,
+      next: PropTypes.string,
+      previous: PropTypes.string,
+      results: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        locus: PropTypes.string,
+        gene: PropTypes.string,
+        transcript: PropTypes.string,
+        cds_exon: PropTypes.number,
+        number_of_baits: PropTypes.number,
+        bases_covered_by_baits: PropTypes.number,
+        number_of_bases_in_region: PropTypes.number,
+        pct_bases_covered_by_baits: PropTypes.number,
+        avg_mapping_quality: PropTypes.number,
+        min_mapping_quality: PropTypes.number,
+        max_mapping_quality: PropTypes.number,
+        avg_coverage: PropTypes.number,
+        min_coverage: PropTypes.number,
+        max_coverage: PropTypes.number,
+      }))
+    }),
+    error: PropTypes.string,
+  }),
   mode: PropTypes.string,
-  transcript: PropTypes.string,
-  coverageFilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  qualityFilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  transcripts: PropTypes.string,
+  coverage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  quality: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   passColor: PropTypes.string,
   warningColor: PropTypes.string,
   errorColor: PropTypes.string,
@@ -233,12 +258,13 @@ Chart.propTypes = {
 
 
 Chart.defaultProps = {
-  data: [],
-  loading: false,
+  stats: {
+    loading: false
+  },
   mode: 'depth',
-  transcript: undefined,
-  coverageFilter: 15,
-  qualityFilter: 20,
+  transcripts: undefined,
+  coverage: 15,
+  quality: 20,
   passColor: '#13CE66',
   warningColor: '#FFC82C',
   errorColor: '#FF4949',

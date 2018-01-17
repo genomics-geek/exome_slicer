@@ -8,6 +8,8 @@ from django.views import defaults as default_views
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt import views as jwt_views
 
+from exome_slicer.quality_stats.urls import default_router as slicer_router
+
 
 urlpatterns = [
 
@@ -26,6 +28,9 @@ urlpatterns = [
     url(r'^api-token-auth/', jwt_views.obtain_jwt_token),
     url(r'^api-token-refresh/', jwt_views.refresh_jwt_token),
     url(r'^api-token-verify/', jwt_views.verify_jwt_token),
+
+    # ExomeSlicer API
+    url(r'^api/', include(slicer_router.urls, namespace='api')),
 
     # API documentation
     url(r'^docs/', include_docs_urls(title='Exome Slicer API', public=False)),

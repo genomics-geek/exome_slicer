@@ -65,11 +65,11 @@ INSTALLED_APPS += ['gunicorn', ]
 # See: http://django-storages.readthedocs.io/en/latest/index.html
 INSTALLED_APPS += ['storages', ]
 
-AWS_ACCESS_KEY_ID = env('DJANGO_AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('DJANGO_AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env('DJANGO_AWS_STORAGE_BUCKET_NAME')
-AWS_AUTO_CREATE_BUCKET = True
-AWS_QUERYSTRING_AUTH = False
+# AWS_ACCESS_KEY_ID = env('DJANGO_AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = env('DJANGO_AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = env('DJANGO_AWS_STORAGE_BUCKET_NAME')
+# AWS_AUTO_CREATE_BUCKET = True
+# AWS_QUERYSTRING_AUTH = False
 
 # AWS cache settings, don't change unless you know what you're doing:
 AWS_EXPIRY = 60 * 60 * 24 * 7
@@ -84,8 +84,8 @@ AWS_HEADERS = {
 
 # URL that handles the media served from MEDIA_ROOT, used for managing
 # stored files.
-MEDIA_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# MEDIA_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Static Assets
