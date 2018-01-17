@@ -1,0 +1,10 @@
+---
+project_home: /webapps/exomeslicer
+project_venv: "{{ project_home }}/pyvenv"
+git_repo: https://github.com/genomics-geek/exome_slicer.git
+svc_user: gonzalezma  # should be svc user, but Python is misbehaving
+svc_group: DGD_Clinical  # should be svc user, but Python is misbehaving
+mailgun_sender_domain: https://api.mailgun.net/v3/email.genomics-geek.com
+server_email: 'ExomeSlicer <noreply@email.genomics-geek.com>'
+db_url: "sqlite:///exomeslicer.db"
+admin_url: "r'^admin/'"

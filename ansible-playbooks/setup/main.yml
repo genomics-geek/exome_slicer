@@ -1,0 +1,10 @@
+---
+# This playbook deploys the whole application stack.
+- name: Deploy Nexus application
+  hosts: all
+
+  roles:
+    - common
+    - exomeslicer
+    - gunicorn
+    - nginx
