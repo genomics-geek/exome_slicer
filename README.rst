@@ -3,6 +3,10 @@ Exome Slicer
 
 Evaluate quality of sequencing when developing an Exome Slice (NGS virtual panel)
 
+Exomeslicer can be found [here](http://exomeslicer.chop.edu/)
+Exomeslicer REST API can be found [here](http://exomeslicer.chop.edu/api/)
+Exomeslicer REST API docs can be found [here](http://exomeslicer.chop.edu/docs/)
+
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
@@ -56,14 +60,7 @@ Moved to `Live reloading and SASS compilation`_.
 .. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
 
 
-
-
-
 Deployment
 ----------
 
 The following details how to deploy this application.
-
-
-
-
