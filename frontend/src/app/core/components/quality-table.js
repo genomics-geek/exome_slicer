@@ -64,13 +64,15 @@ class QualityTable extends React.PureComponent {
 
   getRowClassName = (index) => {
     const { coverage, quality, rows } = this.state
-    const depth = rows[index].min_coverage
-    const mappingQuality = rows[index].avg_mapping_quality
+    if (rows.length > 0) {
+      const depth = rows[index].min_coverage
+      const mappingQuality = rows[index].avg_mapping_quality
 
-    if (depth <= coverage && mappingQuality <= quality) {
-      return 'error'
-    } else if (depth <= coverage || mappingQuality <= quality) {
-      return 'warning'
+      if (depth <= coverage && mappingQuality <= quality) {
+        return 'error'
+      } else if (depth <= coverage || mappingQuality <= quality) {
+        return 'warning'
+      }
     }
   }
 
