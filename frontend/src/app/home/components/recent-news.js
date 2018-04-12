@@ -11,6 +11,7 @@ class RecentNews extends React.PureComponent {
           <List.Item>2017/10/17 - Alpha release</List.Item>
           <List.Item>2018/01/17 - Beta release</List.Item>
           <List.Item>2018/01/17 - Publication on bioRxiv</List.Item>
+          <List.Item>2018/04/11 - Release v0.2.0</List.Item>
         </List>
       </React.Fragment>
     )
