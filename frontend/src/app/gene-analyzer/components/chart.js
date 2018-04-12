@@ -120,10 +120,10 @@ class Chart extends React.PureComponent {
 
     const plotData = get(data, transcript, [])
 
-    let domainPadding = { x: 65, y: 25 }
+    let domainPadding = { x: 25, y: 10 }
     let tickCount = plotData.length > 0 ? plotData.length : 1
     if (plotData.length > 25) {
-      domainPadding = { x: 10, y: 10 }
+      domainPadding = { x: 25, y: 10 }
       tickCount = 25
     }
 
@@ -148,7 +148,7 @@ class Chart extends React.PureComponent {
         <VictoryChart
           theme={VictoryTheme.material}
           domainPadding={domainPadding}
-          width={1300}
+          width={1150}
         >
           <VictoryLegend
             x={100}
@@ -157,19 +157,19 @@ class Chart extends React.PureComponent {
             orientation="horizontal"
             style={{ border: { stroke: "black" }, labels: { fontSize: 10 } }}
             data={[
-              { name: "Pass", symbol: { fill: passColor } },
-              { name: "Warning", symbol: { fill: warningColor } },
-              { name: "Failure", symbol: { fill: errorColor } }
+              { name: "Avgerage MQ ≥ 20 AND minimum DP ≥ 15", symbol: { fill: passColor } },
+              { name: "Average MQ < 20 OR minimum DP < 15", symbol: { fill: warningColor } },
+              { name: "Average MQ < 20 AND min DP < 15", symbol: { fill: errorColor } }
             ]}
           />
           <VictoryAxis
-            axisLabelComponent={<VictoryLabel dy={25} />}
+            axisLabelComponent={<VictoryLabel dy={23} />}
             label="Exons"
             tickCount={tickCount}
             tickFormat={(t) => `${parseInt(t, 10)}`}
             style={{
-              axisLabel: { fontSize: 12 },
-              tickLabels: { fontSize: 10 }
+              axisLabel: { fontSize: 15, padding: 8 },
+              tickLabels: { fontSize: 12 }
             }}
           />
           <VictoryAxis
@@ -179,8 +179,8 @@ class Chart extends React.PureComponent {
             tickCount={10}
             tickFormat={(t) => `${parseInt(t, 10)}`}
             style={{
-              axisLabel: { fontSize: 12 },
-              tickLabels: { fontSize: 10 }
+              axisLabel: { fontSize: 15, padding: 20 },
+              tickLabels: { fontSize: 12 }
             }}
           />
           <VictoryCandlestick
@@ -192,9 +192,9 @@ class Chart extends React.PureComponent {
             }}
             data={plotData}
             dataComponent={<Candle width={800} />}
-            high={(datum) => datum[avg] + 1}  // TODO:  Add std. dev to the dataset
+            high={(datum) => datum[avg] + 3.5}  // TODO:  Add std. dev to the dataset
             open={open}
-            low={(datum) => datum[avg] - 1}  // TODO:  Add std. dev to the dataset
+            low={(datum) => datum[avg] - 3.5}  // TODO:  Add std. dev to the dataset
             close={close}
             x="cds_exon"
             labels={(d) => d.cds_exon}
