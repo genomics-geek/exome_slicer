@@ -53,8 +53,7 @@ class AboutSection extends React.PureComponent {
             The data is available for download in our GitHub repo found
             <a
               href="https://raw.githubusercontent.com/genomics-geek/exome_slicer/develop/data/wes_stats_1923.txt"
-              target="_blank"
-              rel="noopener noreferrer"
+              download="ExomeSlicer.txt"
             >
               &nbsp;here&nbsp;
             </a>
