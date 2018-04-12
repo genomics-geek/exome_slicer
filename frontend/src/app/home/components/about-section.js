@@ -14,6 +14,9 @@ class AboutSection extends React.PureComponent {
           Exome Slicer enables users to select appropriate key exon-level quality metric cutoffs and relevant transcript(s) to view or download technically challenging regions in their disease genes of interest.
         </p>
         <p className="home info">
+          <strong>Note:</strong> We used NovoAlign for alignment so mapping quality max score is 70.
+        </p>
+        <p className="home info">
           Our pre-print publication can be found
           <a
             href="https://www.biorxiv.org/content/early/2018/01/16/248906"
@@ -44,6 +47,17 @@ class AboutSection extends React.PureComponent {
             You can also contact us by
             <a href="mailto:dgdbfx@email.chop.edu?Subject=ExomeSlicer%20request" target="_top">&nbsp;email&nbsp;</a>
             to report data problems or feature suggestions.
+          </List.Item>
+
+          <List.Item>
+            The data is available for download in our GitHub repo found
+            <a
+              href="https://raw.githubusercontent.com/genomics-geek/exome_slicer/develop/data/wes_stats_1923.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              &nbsp;here&nbsp;
+            </a>
           </List.Item>
         </List>
 
