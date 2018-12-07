@@ -22,9 +22,6 @@
     - NODE_PATH: src/
     - REACT_APP_SENTRY_URL: "{{ sentry_dsn }}"
     - REACT_APP_HOST_URL: "{{ ansible_hostname }}"
-    - REACT_APP_GIT_URL: "{{ git_url }}"
-    - REACT_APP_NEXUS_VERSION: "{{ nexus_version.stdout }}"
-    - REACT_APP_NEXUS_COMMIT: "{{ nexus_commit.stdout }}"
 
 - name: Front-end build
   command: "yarn build"
@@ -34,9 +31,6 @@
     - NODE_PATH: src/
     - REACT_APP_SENTRY_URL: "{{ sentry_dsn }}"
     - REACT_APP_HOST_URL: "{{ ansible_hostname }}"
-    - REACT_APP_GIT_URL: "{{ git_url }}"
-    - REACT_APP_NEXUS_VERSION: "{{ nexus_version.stdout }}"
-    - REACT_APP_NEXUS_COMMIT: "{{ nexus_commit.stdout }}"
 
 - name: Generate static files
   command: "{{ project_venv }}/bin/python manage.py collectstatic --no-input"

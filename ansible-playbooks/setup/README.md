@@ -20,5 +20,5 @@ Tasks:
 ### How to run
 
 ```
-ansible-playbook setup.yml -i hosts -l <host> -u <user> -k -K --extra-vars "secret_key= mailgun_api_key="
+ansible-playbook setup.yml -i hosts -l <host> -u <user> -k -K --extra-vars "secret_key= mailgun_api_key= sentry_token="
 ```
