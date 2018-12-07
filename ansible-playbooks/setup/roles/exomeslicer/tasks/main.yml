@@ -39,10 +39,11 @@
   environment:
     - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
     - DJANGO_SECRET_KEY: "{{ secret_key }}"
-    - MAILGUN_SENDER_DOMAIN: "{{ server_email }}"
-    - DJANGO_MAILGUN_API_KEY: "{{ mailgun_api_key }}"
+    - MAILGUN_DOMAIN: "{{ server_email }}"
+    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
     - DATABASE_URL: "{{ db_url }}"
     - DJANGO_ADMIN_URL: "{{ admin_url }}"
+    - SENTRY_DSN: "{{ django_sentry_dsn }}"
   become: true
 
 - name: Migrate database
@@ -52,10 +53,11 @@
   environment:
     - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
     - DJANGO_SECRET_KEY: "{{ secret_key }}"
-    - MAILGUN_SENDER_DOMAIN: "{{ server_email }}"
-    - DJANGO_MAILGUN_API_KEY: "{{ mailgun_api_key }}"
+    - MAILGUN_DOMAIN: "{{ server_email }}"
+    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
     - DATABASE_URL: "{{ db_url }}"
     - DJANGO_ADMIN_URL: "{{ admin_url }}"
+    - SENTRY_DSN: "{{ django_sentry_dsn }}"
   become: true
 
 - name: Change ownership of ExomeSlicer project

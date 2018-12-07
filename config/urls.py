@@ -14,8 +14,8 @@ router = DefaultRouter(trailing_slash=False)
 
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    re_path(r'^app/(?P<route>.*)$', TemplateView.as_view(template_name="index.html"), name='app'),
+    path("", TemplateView.as_view(template_name="index.html"), name="home"),
+    re_path(r'^app/(?P<route>.*)$', TemplateView.as_view(template_name="index.html"), name="app"),
     path("api/", include(router.urls)),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, pretty=True))),
     path(
