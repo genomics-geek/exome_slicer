@@ -22,3 +22,9 @@ coreapi==2.3.3  # https://github.com/core-api/python-client
 # Django/ReactJS integration
 # ------------------------------------------------------------------------------
 django-cors-headers==2.4.0  # https://github.com/ottoyiu/django-cors-headers
+
+
+# Django/GraphQL
+# ------------------------------------------------------------------------------
+graphene-django==2.2.0 # http://docs.graphene-python.org/projects/django/en/latest/
+django-filter==2.0.0  # https://github.com/carltongibson/django-filter

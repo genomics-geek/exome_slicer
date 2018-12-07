@@ -71,6 +71,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'corsheaders',
+    'graphene_django',
 ]
 LOCAL_APPS = [
     'exome_slicer.users.apps.UsersAppConfig',
@@ -259,3 +260,11 @@ SOCIALACCOUNT_ADAPTER = 'exome_slicer.users.adapters.SocialAccountAdapter'
 CORS_ORIGIN_ALLOW_ALL = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# GraphQL
+# django-graphene
+# ------------------------------------------------------------------------------
+# https://docs.graphene-python.org/projects/django/en/latest/
+GRAPHENE = {
+    'SCHEMA': 'exome_slicer.graphql.schema.schema'  # Where your Graphene schema lives
+}

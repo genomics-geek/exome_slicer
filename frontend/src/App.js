@@ -1,36 +1,32 @@
-import React, { Component } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React from 'react'
 
-import axios from 'axios'
+import createHistory from 'history/createBrowserHistory'
+import Raven from 'raven-js'
+import { Provider as AlertProvider } from 'react-alert'
+import { ApolloProvider } from 'react-apollo'
+import { Router } from 'react-router-dom'
+
+import AlertTemplate, { alertOptions } from 'common/alert/template'
+import client from 'apollo/client'
+import Routes from 'routes'
 
 
-class App extends Component {
-  onClick = (e) => {
-    console.log("Sending a GET API Call !!!");
-    axios.get('/api/')
-    .then(res => {
-      console.log(res);
-    }).then(response => {
-      console.log(JSON.stringify(response));
-    })
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button type="button" onClick={this.onClick}>Send API request</button>
-      </div>
-    )
-  }
+if (process.env.NODE_ENV === 'production') {
+  Raven.config(process.env.REACT_APP_SENTRY_URL).install()
 }
+
+const history = createHistory()
+
+
+const App = () => (
+  <ApolloProvider client={client}>
+    <AlertProvider template={AlertTemplate} {...alertOptions}>
+      <Router history={history}>
+        <Routes />
+      </Router>
+    </AlertProvider>
+  </ApolloProvider>
+)
 
 
 export default App
