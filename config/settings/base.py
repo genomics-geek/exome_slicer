@@ -41,7 +41,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='sqlite:///exome_slicer'),
+    'default': env.db('DATABASE_URL', default='sqlite:///exome_slicer.db'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
