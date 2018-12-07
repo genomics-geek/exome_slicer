@@ -3,9 +3,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import NavMenu from 'common/nav-menu'
-
-
-const Home = () => <p>Home</p>
+import Home from 'app/home'
 
 
 const Routes = () => (
@@ -13,6 +11,7 @@ const Routes = () => (
     <NavMenu />
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route exact path="/app/" component={Home} />
     </Switch>
   </React.Fragment>
 )
