@@ -1,27 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-import registerServiceWorker from 'Src/registerServiceWorker'
+import './index.css'
+import App from './App'
+import * as serviceWorker from './serviceWorker';
 
-import Root from 'Src/root'
-import configureStore from 'Src/store'
-import history from 'Src/history'
-// import 'Stylesheets/main.scss'
+import Raven from 'raven-js'
 
 
-const rootEl = document.getElementById('root')
-const { persistor, store } = configureStore()
-
-ReactDOM.render(
-  <AppContainer>
-    <Root store={store} persistor={persistor} history={history} />
-  </AppContainer>,
-  rootEl
-)
-
-registerServiceWorker()
-
-// Hot Reloader: http://joshbroton.com/add-react-hot-reloading-create-react-app/
-if (module.hot) {
-  module.hot.accept()
+if (process.env.NODE_ENV === 'production') {
+  Raven.config(process.env.REACT_APP_SENTRY_URL).install()
 }
+
+const rootElement = document.getElementById('root')
+
+ReactDOM.render(<App />, rootElement)
+if (module.hot && process.env.NODE_ENV === "development") {
+  module.hot.accept('./App', () => {
+    const NextRoot = require('./App').default
+    ReactDOM.render(<NextRoot />, rootElement)
+  })
+}
+
+serviceWorker.unregister()
