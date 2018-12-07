@@ -18,6 +18,7 @@ const View = () => {
     <Query
       query={QUERY}
       variables={filters}
+      fetchPolicy="cache-first"
     >
       {({ loading, error, data }) => {
         if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
