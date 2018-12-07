@@ -1,6 +1,6 @@
 {
   "name": "exome_slicer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "proxy": "http://localhost:8000",
   "scripts": {
@@ -13,8 +13,8 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
     "react-scripts": "2.1.1"
   },
   "devDependencies": {
@@ -42,7 +42,8 @@
     "react-router-dom": "4.3.1",
     "react-transition-group": "2.5.0",
     "semantic-ui-css": "2.4.1",
-    "semantic-ui-react": "0.83.0"
+    "semantic-ui-react": "0.83.0",
+    "victory": "0.24.5"
   },
   "engines": {
     "node": "9.11.1",

@@ -15,3 +15,7 @@ class QualityStatNode(PrimaryKeyMixin, DjangoObjectType):
 
 class GeneNode(ObjectType):
     gene = String()
+
+
+class TranscriptNode(ObjectType):
+    transcript = String()

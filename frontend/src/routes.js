@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import NavMenu from 'common/nav-menu'
 import Home from 'app/home'
 import BatchAnalyzer from 'app/batch-analyzer'
+import GeneAnalyzer from 'app/gene-analyzer'
 
 
 const Routes = () => (
@@ -14,6 +15,7 @@ const Routes = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/app/" component={Home} />
       <Route exact path="/app/batch-analyzer" component={BatchAnalyzer} />
+      <Route exact path="/app/gene-analyzer" component={GeneAnalyzer} />
     </Switch>
   </React.Fragment>
 )

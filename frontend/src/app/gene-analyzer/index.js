@@ -1,33 +1,42 @@
-import React from 'react'
-import { Grid } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Query } from 'react-apollo'
+import { get, map } from 'lodash'
 
-import SearchForm from './containers/search-form'
-import Chart from './containers/chart'
-import QualityTable from 'Src/app/core/containers/quality-table'
+import Alert from 'common/alert'
+import { DimmerLoading } from 'common/loaders'
+
+import GeneAnalyzer from './components/presentational/gene-analyzer'
+
+import { QUERY } from './queries/gene-query'
 
 
-class GeneAnalyzer extends React.PureComponent {
-  render() {
-    return (
-      <Grid padded>
+const View = () => {
+  const defaultFilters = {gene: "MFN2", transcript:""}
+  const [filters, setFilter] = useState(defaultFilters)
 
-        <Grid.Row>
-          <Grid.Column width={16}>
-            <Chart />
-          </Grid.Column>
-        </Grid.Row>
+  return (
+    <Query
+      query={QUERY}
+      variables={filters}
+      fetchPolicy="cache-first"
+    >
+      {({ loading, error, data }) => {
+        if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
+        if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
 
-        <QualityTable
-          maxHeight={325}
-          headerHeight={50}
-          rowHeight={35}
-          searchForm={<SearchForm />}
-        />
+        const rows = map(get(data, 'allQualityStats.edges', []), row => get(row, 'node'))
 
-      </Grid>
-    )
-  }
+        return (
+          <GeneAnalyzer
+            rows={rows}
+            setFilter={setFilter}
+            filters={filters}
+          />
+        )
+      }}
+    </Query>
+  )
 }
 
 
-export default GeneAnalyzer
+export default View
