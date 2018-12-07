@@ -1,12 +1,12 @@
 .banner {
   text-align: center;
-  background-color: genomix-color('black');
+  background-color: #1F2D3D;
 }
 
 .title {
   padding-top: 25px;
-  font-family: $font-family;
-  color: genomix-color('black');
+  font-family: 'Ubuntu', sans-serif;
+  color: #1F2D3D;
 }
 
 .detail {
@@ -18,15 +18,15 @@
 }
 
 .banner.title {
-  color: genomix-color('white');
+  color: #FFFFFF;
 }
 
 .banner.info {
-  color: genomix-color('white');
+  color: #FFFFFF;
 }
 
 .ui.grid > .row.banner.detail {
-  color: genomix-color('dark-smoke');
+  color: #D3DCE6;
 }
 
 .ui.grid > .row.banner.action {

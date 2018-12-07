@@ -5,28 +5,26 @@ import AboutSection from './components/about-section'
 import RecentNews from './components/recent-news'
 import WelcomeBanner from './components/welcome-banner'
 
+import './index.scss'
 
-class Home extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
 
-        <WelcomeBanner />
+const Home = () => (
+  <React.Fragment>
 
-        <Grid padded className="about-section">
-          <Grid.Column width={10}>
-            <AboutSection />
-          </Grid.Column>
+    <WelcomeBanner />
 
-          <Grid.Column width={6}>
-            <RecentNews />
-          </Grid.Column>
-        </Grid>
+    <Grid padded className="about-section">
+      <Grid.Column width={10}>
+        <AboutSection />
+      </Grid.Column>
 
-      </React.Fragment>
-    )
-  }
-}
+      <Grid.Column width={6}>
+        <RecentNews />
+      </Grid.Column>
+    </Grid>
+
+  </React.Fragment>
+)
 
 
 export default Home
