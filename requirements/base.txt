@@ -1,65 +1,24 @@
-# Wheel 0.25+ needed to install certain packages on CPython 3.5+
-# like Pillow and psycopg2
-# See http://bitly.com/wheel-building-fails-CPython-35
-# Verified bug on Python 3.5.1
-wheel==0.30.0
+pytz==2018.7  # https://github.com/stub42/pytz
+python-slugify==1.2.6  # https://github.com/un33k/python-slugify
+Pillow==5.3.0  # https://github.com/python-pillow/Pillow
+argon2-cffi==18.3.0  # https://github.com/hynek/argon2_cffi
+whitenoise==4.1.2  # https://github.com/evansd/whitenoise
+redis>=2.10.6, < 3  # pyup: < 3 # https://github.com/antirez/redis
+
+# Django
+# ------------------------------------------------------------------------------
+django==2.0.9  # pyup: < 2.1  # https://www.djangoproject.com/
+django-environ==0.4.5  # https://github.com/joke2k/django-environ
+django-model-utils==3.1.2  # https://github.com/jazzband/django-model-utils
+django-allauth==0.38.0  # https://github.com/pennersr/django-allauth
+django-crispy-forms==1.7.2  # https://github.com/django-crispy-forms/django-crispy-forms
+django-redis==4.10.0  # https://github.com/niwinz/django-redis
+
+# Django REST Framework
+djangorestframework==3.9.0  # https://github.com/encode/django-rest-framework
+coreapi==2.3.3  # https://github.com/core-api/python-client
 
 
-# Conservative Django
-django==1.11.9 # pyup: <2.0
-
-# Configuration
-django-environ==0.4.4
-whitenoise==3.3.1
-
-
-# Forms
-django-crispy-forms==1.7.0
-
-# Models
-django-model-utils==3.1.1
-
-# Images
-Pillow==5.0.0
-
-# Password storage
-argon2-cffi==18.1.0
-
-# For user registration, either via email or social
-# Well-built with regular release cycles!
-django-allauth==0.34.0
-
-
-# Python-PostgreSQL Database Adapter
-psycopg2==2.7.3.2
-
-# Unicode slugification
-awesome-slugify==1.6.5
-
-# Time zones support
-pytz==2017.3
-
-# Redis support
-django-redis==4.8.0
-redis>=2.10.5
-
-
-
-
-
-
-
-# Django REST APIs
-djangorestframework==3.7.7
-djangorestframework-jwt==1.11.0
-
-django-filter==1.1.0
-django-rest-auth==0.9.2
-
-coreapi==2.3.3  # For documenting API
-django-oauth-toolkit==0.12.0
-
-# This integrates webpack and Django
-django-webpack-loader==0.5.0
-
-# Your custom requirements go here
+# Django/ReactJS integration
+# ------------------------------------------------------------------------------
+django-cors-headers==2.4.0  # https://github.com/ottoyiu/django-cors-headers

@@ -7,7 +7,7 @@ Evaluate quality of sequencing when developing an Exome Slice (NGS virtual panel
 * Exomeslicer REST API can be found `here <http://exomeslicer.chop.edu/api/>`_
 * Exomeslicer REST API docs can be found `here <http://exomeslicer.chop.edu/docs/>`_
 
-If you use ExomeSlicer in your work, please cite our `publication <https://www.biorxiv.org/content/early/2018/01/16/248906>`_
+If you use ExomeSlicer in your work, please cite our `publication <https://www.ncbi.nlm.nih.gov/pubmed/29936260>`_
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
@@ -38,12 +38,21 @@ Setting Up Your Users
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
+Type checks
+^^^^^^^^^^^
+
+Running type checks with mypy:
+
+::
+
+  $ mypy exome_slicer
+
 Test coverage
 ^^^^^^^^^^^^^
 
 To run the tests, check your test coverage, and generate an HTML coverage report::
 
-    $ coverage run manage.py test
+    $ coverage run -m pytest
     $ coverage html
     $ open htmlcov/index.html
 
@@ -52,7 +61,7 @@ Running tests with py.test
 
 ::
 
-  $ py.test
+  $ pytest
 
 Live reloading and Sass CSS compilation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,6 +69,18 @@ Live reloading and Sass CSS compilation
 Moved to `Live reloading and SASS compilation`_.
 
 .. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
+
+
+
+
+
+Sentry
+^^^^^^
+
+Sentry is an error logging aggregator service. You can sign up for a free account at  https://sentry.io/signup/?code=cookiecutter  or download and host it yourself.
+The system is setup with reasonable defaults, including 404 logging and integration with the WSGI application.
+
+You must set the DSN url in production.
 
 
 Deployment

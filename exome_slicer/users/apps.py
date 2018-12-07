@@ -1,13 +1,13 @@
 from django.apps import AppConfig
 
 
-class UsersConfig(AppConfig):
-    name = 'exome_slicer.users'
+class UsersAppConfig(AppConfig):
+
+    name = "exome_slicer.users"
     verbose_name = "Users"
 
     def ready(self):
-        """Override this to put in:
-            Users system checks
-            Users signal registration
-        """
-        pass
+        try:
+            import users.signals  # noqa F401
+        except ImportError:
+            pass
