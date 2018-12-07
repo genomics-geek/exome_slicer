@@ -4,7 +4,9 @@ import { Grid } from 'semantic-ui-react'
 
 import { DownloadButton } from 'common/buttons'
 import { FixedDataTable } from 'common/tables'
+
 import FilterModal from './filter-modal'
+import InfoModal from './info-modal'
 
 
 const BatchAnalyzer = ({ rows, setFilter, filters }) => (
@@ -13,6 +15,7 @@ const BatchAnalyzer = ({ rows, setFilter, filters }) => (
       <Grid.Column width={16}>
         <DownloadButton color="twitter" data={rows} filename="batch-download.csv" />
         <FilterModal filters={filters} setFilter={setFilter} />
+        <InfoModal />
       </Grid.Column>
     </Grid.Row>
 

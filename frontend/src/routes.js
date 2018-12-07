@@ -15,7 +15,7 @@ const Routes = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/app/" component={Home} />
       <Route exact path="/app/batch-analyzer" component={BatchAnalyzer} />
-      <Route exact path="/app/gene-analyzer" component={GeneAnalyzer} />
+      <Route path="/app/gene-analyzer/:gene" component={GeneAnalyzer} />
     </Switch>
   </React.Fragment>
 )
