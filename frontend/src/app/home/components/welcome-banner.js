@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 
 import { GenesDropdown } from 'common/drop-downs'
 
 
-const WelcomeBanner = () => (
+const WelcomeBanner = ({ history }) => (
   <Grid centered className="banner">
 
     <Grid.Row>
@@ -27,12 +28,13 @@ const WelcomeBanner = () => (
 
     <Grid.Row className="banner action">
       <Grid.Column width={8}>
-          <GenesDropdown
-            name="genes"
-            fluid
-            search
-            selection
-          />
+        <GenesDropdown
+          name="gene"
+          fluid
+          search
+          selection
+          onChange={(e, {name, value}) => history.push(`/app/gene-analyzer/${value}`)}
+        />
       </Grid.Column>
 
     </Grid.Row>
@@ -41,4 +43,4 @@ const WelcomeBanner = () => (
 )
 
 
-export default WelcomeBanner
+export default withRouter(WelcomeBanner)

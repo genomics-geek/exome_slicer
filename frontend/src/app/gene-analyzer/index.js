@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
+import { withRouter } from 'react-router-dom'
 import { get, map } from 'lodash'
 
 import Alert from 'common/alert'
@@ -10,8 +12,9 @@ import GeneAnalyzer from './components/presentational/gene-analyzer'
 import { QUERY } from './queries/gene-query'
 
 
-const View = () => {
-  const defaultFilters = {gene: "MFN2", transcript:""}
+const View = ({ match }) => {
+  const gene = get(match, 'params.gene', 'MFN2')
+  const defaultFilters = {gene, transcript:""}
   const [filters, setFilter] = useState(defaultFilters)
 
   return (
@@ -39,4 +42,13 @@ const View = () => {
 }
 
 
-export default View
+View.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      gene: PropTypes.string,
+    })
+  })
+}
+
+
+export default withRouter(View)
