@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene import Field, Int, List, Node, String
 
@@ -25,36 +27,38 @@ class QualityStatsQuery(object):
         lambda: List(types.TranscriptNode),
         limit=Int(),
         transcript=String(),
-        gene=String(),
+        gene=String(required=True),
         search=String(),
     )
 
     def resolve_all_genes(self, info, **kwargs):
-        queryset = QualityStat.objects.distinct('gene')
+        queryset = QualityStat.objects.distinct()
 
         if kwargs.get('symbol'):
-            queryset = queryset.filter(gene__iexact=kwargs.get('symbol'))
+            queryset = queryset.filter(Q(gene__iexact=kwargs.get('symbol')))
 
         if kwargs.get('search'):
-            queryset = queryset.filter(gene__icontains=kwargs.get('search'))
+            queryset = queryset.filter(Q(gene__icontains=kwargs.get('search')))
 
+        queryset = queryset.values('gene').distinct()
         if kwargs.get('limit'):
             queryset = queryset[:kwargs.get('limit')]
 
         return queryset
 
     def resolve_all_transcripts(self, info, **kwargs):
-        queryset = QualityStat.objects.distinct('transcript')
+        queryset = QualityStat.objects.distinct()
 
         if kwargs.get('transcript'):
-            queryset = queryset.filter(transcript__iexact=kwargs.get('transcript'))
+            queryset = queryset.filter(Q(transcript__iexact=kwargs.get('transcript')))
 
         if kwargs.get('gene'):
-            queryset = queryset.filter(gene__iexact=kwargs.get('gene'))
+            queryset = queryset.filter(Q(gene__iexact=kwargs.get('gene')))
 
         if kwargs.get('search'):
-            queryset = queryset.filter(transcript__icontains=kwargs.get('search'))
+            queryset = queryset.filter(Q(transcript__icontains=kwargs.get('search')))
 
+        queryset = queryset.values('transcript').distinct()
         if kwargs.get('limit'):
             queryset = queryset[:kwargs.get('limit')]
 
