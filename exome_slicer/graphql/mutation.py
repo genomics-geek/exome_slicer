@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from graphene import Field, ObjectType
 from graphene_django.debug import DjangoDebug
 

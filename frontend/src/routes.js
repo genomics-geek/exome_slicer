@@ -1,25 +1,22 @@
-import React from 'react'
-
+import React, { Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import NavMenu from 'common/nav-menu'
-import Home from 'app/home'
-import BatchAnalyzer from 'app/batch-analyzer'
-import GeneAnalyzer from 'app/gene-analyzer'
-
+const NavMenu = React.lazy(() => import('./common/nav-menu'))
+const Home = React.lazy(() => import('./app/home'))
+// const BatchAnalyzer = React.lazy(() => import('./app/batch-analyzer'))
+// const GeneAnalyzer = React.lazy(() => import('./app/gene-analyzer'))
 
 const Routes = () => (
-  <React.Fragment>
+  <Suspense fallback={<div>Loading...</div>}>
     <NavMenu />
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/app/" component={Home} />
-      <Route exact path="/app/batch-analyzer" component={BatchAnalyzer} />
-      <Route exact path="/app/gene-analyzer/" component={GeneAnalyzer} />
-      <Route path="/app/gene-analyzer/:gene" component={GeneAnalyzer} />
+      {/* <Route exact path="/app/batch-analyzer" component={BatchAnalyzer} />
+        <Route exact path="/app/gene-analyzer/" component={GeneAnalyzer} />
+      <Route path="/app/gene-analyzer/:gene" component={GeneAnalyzer} /> */}
     </Switch>
-  </React.Fragment>
+  </Suspense>
 )
-
 
 export default Routes
