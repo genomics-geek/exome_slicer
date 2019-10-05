@@ -3,7 +3,7 @@ import { Grid } from 'semantic-ui-react'
 
 import AboutSection from './components/about-section'
 import RecentNews from './components/recent-news'
-import WelcomeBanner from './components/welcome-banner'
+// import WelcomeBanner from './components/welcome-banner'
 
 import './index.scss'
 
@@ -11,7 +11,7 @@ import './index.scss'
 const Home = () => (
   <React.Fragment>
 
-    <WelcomeBanner />
+    {/* <WelcomeBanner /> */}
 
     <Grid padded className="about-section">
       <Grid.Column width={10}>

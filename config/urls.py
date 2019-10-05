@@ -2,11 +2,12 @@ from django.conf import settings
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views import defaults as default_views
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from django.views import defaults as default_views
 
-from graphene_django.views import GraphQLView
+from graphene_file_upload.django import FileUploadGraphQLView
+from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
 
@@ -14,27 +15,25 @@ router = DefaultRouter(trailing_slash=False)
 
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="index.html"), name="home"),
-    re_path(r'^app/(?P<route>.*)$', TemplateView.as_view(template_name="index.html"), name="app"),
+    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    re_path(r'^app/(?P<route>.*)$', TemplateView.as_view(template_name="index.html"), name='app'),
+
+    # APIs
     path("api/", include(router.urls)),
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, pretty=True))),
-    path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="about",
-    ),
+    path("api-docs/", include_docs_urls(title="Exome Slicer REST API", public=False)),
+    path("graphql/", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True, pretty=True))),
+
+    # User management from django-all-auth
+    path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    path("users/", include("exome_slicer.users.urls", namespace="users")),
+    path("accounts/", include("allauth.urls")),
+
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
-    # User management
-    path(
-        "users/",
-        include("exome_slicer.users.urls", namespace="users"),
-    ),
-    path("accounts/", include("allauth.urls")),
+
     # Your stuff: custom urls includes go here
-] + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-)
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

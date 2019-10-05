@@ -4,14 +4,20 @@ Exome Slicer
 Evaluate quality of sequencing when developing an Exome Slice (NGS virtual panel)
 
 * Exomeslicer can be found `here <http://exomeslicer.chop.edu/>`_
+* Exomeslicer GraphQL API can be found `here <http://exomeslicer.chop.edu/graphql/>`_
 * Exomeslicer REST API can be found `here <http://exomeslicer.chop.edu/api/>`_
-* Exomeslicer REST API docs can be found `here <http://exomeslicer.chop.edu/docs/>`_
+* Exomeslicer REST API docs can be found `here <http://exomeslicer.chop.edu/api-docs/>`_
 
 If you use ExomeSlicer in your work, please cite our `publication <https://www.ncbi.nlm.nih.gov/pubmed/29936260>`_
+
+Exome Slicer
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+     :target: https://github.com/ambv/black
+     :alt: Black code style
 
 
 :License: MIT

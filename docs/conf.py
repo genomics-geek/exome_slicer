@@ -40,7 +40,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Exome Slicer"
-copyright = """2018, Michael A. Gonzalez"""
+copyright = """2019, Michael A. Gonzalez"""
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
