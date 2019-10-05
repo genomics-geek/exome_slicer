@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Modal } from 'semantic-ui-react'
+import { useFormInput } from 'react-genomix/lib/hooks'
 import { get, split } from 'lodash'
 
-import { useFormInput } from 'common/hooks'
 import FilterForm from './filter-form'
-
 
 const FilterModal = ({ filters, setFilter }) => {
 
@@ -30,7 +29,6 @@ const FilterModal = ({ filters, setFilter }) => {
         />
       }
     >
-
       <Modal.Header content="Batch Filters" />
       <Modal.Content>
         <FilterForm
@@ -71,7 +69,6 @@ const FilterModal = ({ filters, setFilter }) => {
   )
 }
 
-
 FilterModal.propTypes = {
   setFilter: PropTypes.func,
   filters: PropTypes.shape({
@@ -79,6 +76,5 @@ FilterModal.propTypes = {
     qualityFilters: PropTypes.string,
   })
 }
-
 
 export default FilterModal

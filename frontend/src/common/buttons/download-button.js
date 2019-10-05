@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { CSVLink } from 'react-csv'
 
-
 const headers = [
   {label: 'Gene', key: 'gene'},
   {label: 'Transcript', key: 'transcript'},
@@ -14,13 +13,11 @@ const headers = [
   {label: 'Min. Coverage', key: 'minCoverage'},
 ]
 
-
-const DownloadButton = ({ data, headers, filename, ...rest }) => (
-  <CSVLink data={data} headers={headers} filename={filename}>
+const DownloadButton = ({ data = [], columns = headers, filename, ...rest }) => (
+  <CSVLink data={data} headers={columns} filename={filename}>
     <Button content="Download" icon="download" {...rest} />
   </CSVLink>
 )
-
 
 DownloadButton.propTypes = {
   filename: PropTypes.string,
@@ -30,12 +27,5 @@ DownloadButton.propTypes = {
   })),
   data: PropTypes.array
 }
-
-
-DownloadButton.defaultProps = {
-  headers: headers,
-  data: []
-}
-
 
 export default DownloadButton

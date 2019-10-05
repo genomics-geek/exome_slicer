@@ -1,1 +1,1 @@
-export { default as FixedDataTable } from './fixed-data-table'
+export { default as DataTable } from './data-table'
