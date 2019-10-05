@@ -2,16 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { get, map } from 'lodash'
 
-import { QUERY } from '../../queries/transcripts'
-import { SearchDropdown } from 'common/drop-downs'
-
+import { TRANSCRIPTS as QUERY } from './queries'
+import SearchDropdown from './search-dropdown'
 
 export const reformatOptions = data => map(get(data, 'allTranscripts', []), element => ({
   key: get(element, 'transcript'),
   value: get(element, 'transcript'),
   text: get(element, 'transcript')
 }))
-
 
 const TranscriptsDropdown = props => (
   <SearchDropdown
@@ -23,10 +21,8 @@ const TranscriptsDropdown = props => (
   />
 )
 
-
 TranscriptsDropdown.propTypes = {
   gene: PropTypes.string.isRequired,
 }
-
 
 export default TranscriptsDropdown
