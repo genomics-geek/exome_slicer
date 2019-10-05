@@ -3,7 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Message } from 'semantic-ui-react'
 
-
 // Should be passed to the Alert Provider as props
 export const alertOptions = {
   position: 'top center',
@@ -13,14 +12,12 @@ export const alertOptions = {
   zIndex: 2000,
 }
 
-
 export const getColor = type => {
   if (type==='error') return 'red'
   else if (type==='info') return 'blue'
   else if (type==='success') return 'green'
   return 'grey'
 }
-
 
 export const getIcon = type => {
   if (type==='error') return 'exclamation circle'
@@ -29,8 +26,7 @@ export const getIcon = type => {
   return 'question'
 }
 
-
-const AlertTemplate = ({ message, options, style, close }) => (
+const AlertTemplate = ({ message, options = {}, style = alertOptions, close }) => (
   // the style contains only the margin given as offset
   // options contains all alert given options
   // message is the alert message...
@@ -45,7 +41,6 @@ const AlertTemplate = ({ message, options, style, close }) => (
   />
 )
 
-
 AlertTemplate.propTypes = {
   close: PropTypes.func.isRequired,
   message: PropTypes.any.isRequired,
@@ -54,12 +49,5 @@ AlertTemplate.propTypes = {
   }),
   style: PropTypes.shape({}),
 }
-
-
-AlertTemplate.defaultProps = {
-  options: {},
-  style: alertOptions,
-}
-
 
 export default AlertTemplate

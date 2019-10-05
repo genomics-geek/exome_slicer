@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Divider, Message, Modal } from 'semantic-ui-react'
 
-
 const InfoModal = () => (
   <Modal
     trigger={
@@ -28,7 +27,6 @@ const InfoModal = () => (
   </Modal>
 )
 
-
 InfoModal.propTypes = {
   setFilter: PropTypes.func,
   filters: PropTypes.shape({
@@ -36,6 +34,5 @@ InfoModal.propTypes = {
     qualityFilters: PropTypes.string,
   })
 }
-
 
 export default InfoModal

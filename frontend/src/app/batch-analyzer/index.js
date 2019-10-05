@@ -1,42 +1,46 @@
 import React, { useState } from 'react'
-import { Query } from 'react-apollo'
-import { get, map } from 'lodash'
+import { useQuery } from '@apollo/react-hooks'
+import { useWindowSize } from 'react-genomix/lib/hooks'
+import { Grid } from 'semantic-ui-react'
 
 import Alert from 'common/alert'
+import { DownloadButton } from 'common/buttons'
 import { DimmerLoading } from 'common/loaders'
+import { DataTable } from 'common/tables'
 
-import BatchAnalyzer from './components/presentational/batch-analyzer'
+import FilterModal from './filter-modal'
+import InfoModal from './info-modal'
 
-import { QUERY } from './queries/batch-query'
-
+import { QUERY } from './queries'
+import { parseQuery } from './parsers'
 
 const View = () => {
   const defaultFilters = {genesIn: "MFN2,MFN1", qualityFilters: "15,30"}
   const [filters, setFilter] = useState(defaultFilters)
+  const { innerHeight } = useWindowSize()
+  const { data, error, loading } = useQuery(QUERY, {variables: filters, fetchPolicy: "cache-first"})
+
+  if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
+  if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
+  const rows = parseQuery(data)
 
   return (
-    <Query
-      query={QUERY}
-      variables={filters}
-      fetchPolicy="cache-first"
-    >
-      {({ loading, error, data }) => {
-        if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
-        if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
+    <Grid padded>
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <DownloadButton color="twitter" data={rows} filename="batch-download.csv" />
+          <FilterModal filters={filters} setFilter={setFilter} />
+          <InfoModal />
+        </Grid.Column>
+      </Grid.Row>
 
-        const rows = map(get(data, 'allQualityStats.edges', []), row => get(row, 'node'))
-
-        return (
-          <BatchAnalyzer
-            rows={rows}
-            setFilter={setFilter}
-            filters={filters}
-          />
-        )
-      }}
-    </Query>
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <DataTable rows={rows} maxHeight={innerHeight - 200} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   )
 }
-
 
 export default View

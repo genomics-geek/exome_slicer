@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 
-
 const handleGenesInput = (onChange, {name, value}) => {
   const genesValues = value.replace('\n', ',').replace(';', ',').replace(/\s+/g, ',')
   const genesArray = genesValues.split(',')
   const genesFilter = genesArray.join(',')
   onChange({}, {name: name, value: genesFilter})
 }
-
 
 const FilterForm = ({ genes, quality, coverage, onChange }) => (
   <Form>
@@ -36,13 +34,11 @@ const FilterForm = ({ genes, quality, coverage, onChange }) => (
   </Form>
 )
 
-
 FilterForm.propTypes = {
   genes: PropTypes.string,
   quality: PropTypes.number,
   coverage: PropTypes.number,
   onChange: PropTypes.func,
 }
-
 
 export default FilterForm
