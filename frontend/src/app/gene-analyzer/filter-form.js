@@ -4,7 +4,6 @@ import { Form } from 'semantic-ui-react'
 
 import { GenesDropdown, TranscriptsDropdown } from 'common/drop-downs'
 
-
 const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange }) => (
   <Form>
     <Form.Dropdown
@@ -14,8 +13,8 @@ const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange })
       search
       selection
       options={[
-        {key: 'depth', value: 'depth', text: 'Depth'},
-        {key: 'mappingQuality', value: 'mappingQuality', text: 'Mapping Quality'},
+        { key: 'depth', value: 'depth', text: 'Depth' },
+        { key: 'mappingQuality', value: 'mappingQuality', text: 'Mapping Quality' },
       ]}
       onChange={onChange}
     />
@@ -28,7 +27,7 @@ const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange })
       onChange={(e, data) => {
         // NOTE: This ensures we reset transcript dropdown
         onChange(e, data)
-        onChange(e, {...data, ...{name: 'transcript', value: ''}})
+        onChange(e, { ...data, ...{ name: 'transcript', value: '' } })
       }}
       search
       selection
@@ -53,16 +52,9 @@ const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange })
       value={mappingQuality}
       onChange={onChange}
     />
-    <Form.Input
-      label="Min. Depth"
-      name="depth"
-      type="number"
-      value={depth}
-      onChange={onChange}
-    />
+    <Form.Input label="Min. Depth" name="depth" type="number" value={depth} onChange={onChange} />
   </Form>
 )
-
 
 FilterForm.propTypes = {
   gene: PropTypes.string,
@@ -72,6 +64,5 @@ FilterForm.propTypes = {
   mode: PropTypes.string,
   onChange: PropTypes.func,
 }
-
 
 export default FilterForm

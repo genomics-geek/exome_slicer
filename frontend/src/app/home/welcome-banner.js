@@ -9,11 +9,8 @@ const WelcomeBanner = () => {
   const history = useHistory()
   return (
     <Grid centered className="banner">
-
       <Grid.Row>
-        <h1 className="banner title">
-          Welcome to ExomeSlicer
-        </h1>
+        <h1 className="banner title">Welcome to ExomeSlicer</h1>
       </Grid.Row>
 
       <Grid.Row className="banner detail">
@@ -22,8 +19,8 @@ const WelcomeBanner = () => {
 
       <Grid.Row>
         <p className="banner info">
-          To get started, search for a gene of interest
-          (or click <Link to="/app/batch-analyzer/">here</Link> for a batch request)
+          To get started, search for a gene of interest (or click <Link to="/app/batch-analyzer/">here</Link> for a
+          batch request)
         </p>
       </Grid.Row>
 
@@ -34,12 +31,10 @@ const WelcomeBanner = () => {
             fluid
             search
             selection
-            onChange={(e, {name, value}) => history.push(`/app/gene-analyzer/?gene=${value}&mode=depth`)}
+            onChange={(e, { name, value }) => history.push(`/app/gene-analyzer/?gene=${value}&mode=depth`)}
           />
         </Grid.Column>
-
       </Grid.Row>
-
     </Grid>
   )
 }

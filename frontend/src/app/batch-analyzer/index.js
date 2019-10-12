@@ -15,10 +15,10 @@ import { QUERY } from './queries'
 import { parseQuery } from './parsers'
 
 const View = () => {
-  const defaultFilters = {genesIn: "MFN2,MFN1", qualityFilters: "15,30"}
+  const defaultFilters = { genesIn: 'MFN2,MFN1', qualityFilters: '15,30' }
   const [filters, setFilter] = useState(defaultFilters)
   const { innerHeight } = useWindowSize()
-  const { data, error, loading } = useQuery(QUERY, {variables: filters, fetchPolicy: "cache-first"})
+  const { data, error, loading } = useQuery(QUERY, { variables: filters, fetchPolicy: 'cache-first' })
 
   if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
   if (loading) return <DimmerLoading fullpage message="Retrieving data..." />

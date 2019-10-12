@@ -36,6 +36,7 @@
     "graphql-tools": "4.0.5",
     "localforage": "1.7.3",
     "node-sass": "4.12.0",
+    "prettier": "1.18.2",
     "query-string": "6.8.3",
     "raven-js": "3.27.2",
     "react-alert": "5.5.0",

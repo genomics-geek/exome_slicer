@@ -3,7 +3,12 @@ import { ResponsiveLine } from '@nivo/line'
 import { Segment } from 'semantic-ui-react'
 import { get } from 'lodash'
 
-const ToolTip = ({ point: { serieId, data: { x, y }} }) => (
+const ToolTip = ({
+  point: {
+    serieId,
+    data: { x, y },
+  },
+}) => (
   <Segment>
     Exon: <strong>{x}</strong>; {serieId}: <strong>{y}</strong>
   </Segment>
@@ -19,20 +24,24 @@ const Chart = ({ yLegend, data = [], threshold }) => {
       xScale={{ type: 'point' }}
       axisTop={null}
       axisRight={null}
-      axisBottom={exons > 20 ? null : {
-        orient: 'bottom',
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'Exons',
-        legendOffset: 36,
-        legendPosition: 'middle'
-      }}
+      axisBottom={
+        exons > 20
+          ? null
+          : {
+              orient: 'bottom',
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: 'Exons',
+              legendOffset: 36,
+              legendPosition: 'middle',
+            }
+      }
       axisLeft={{
         orient: 'left',
         legend: yLegend,
         legendOffset: -40,
-        legendPosition: 'middle'
+        legendPosition: 'middle',
       }}
       colors={{ scheme: 'set2' }}
       pointSize={10}
@@ -58,25 +67,29 @@ const Chart = ({ yLegend, data = [], threshold }) => {
           symbolShape: 'circle',
           symbolBorderColor: 'rgba(0, 0, 0, .5)',
           effects: [
-          {
-            on: 'hover',
-            style: {
-              itemBackground: 'rgba(0, 0, 0, .03)',
-              itemOpacity: 1
-            }
-          }
-          ]
-        }
-      ]}
-      markers={threshold ? [
-        {
-          axis: 'y',
-          value: threshold,
-          lineStyle: { stroke: '#b0413e', strokeWidth: 3 },
-          legend: 'Threshold',
-          legendOrientation: 'horizontal',
+            {
+              on: 'hover',
+              style: {
+                itemBackground: 'rgba(0, 0, 0, .03)',
+                itemOpacity: 1,
+              },
+            },
+          ],
         },
-      ] : undefined}
+      ]}
+      markers={
+        threshold
+          ? [
+              {
+                axis: 'y',
+                value: threshold,
+                lineStyle: { stroke: '#b0413e', strokeWidth: 3 },
+                legend: 'Threshold',
+                legendOrientation: 'horizontal',
+              },
+            ]
+          : undefined
+      }
     />
   )
 }

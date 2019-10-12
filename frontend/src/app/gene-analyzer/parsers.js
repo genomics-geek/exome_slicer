@@ -46,32 +46,32 @@ export const parseQuery = data => {
 
   const depthDataSet = [
     {
-      id: "Min DP",
-      data: minDepth
+      id: 'Min DP',
+      data: minDepth,
     },
     {
-      id: "Avg DP",
-      data: avgDepth
+      id: 'Avg DP',
+      data: avgDepth,
     },
     {
-      id: "Max DP",
-      data: maxDepth
-    }
+      id: 'Max DP',
+      data: maxDepth,
+    },
   ]
 
   const mappingQualityDataSet = [
     {
-      id: "Min MQ",
-      data: minMQ
+      id: 'Min MQ',
+      data: minMQ,
     },
     {
-      id: "Avg MQ",
-      data: avgMQ
+      id: 'Avg MQ',
+      data: avgMQ,
     },
     {
-      id: "Max MQ",
-      data: maxMQ
-    }
+      id: 'Max MQ',
+      data: maxMQ,
+    },
   ]
 
   return { rows, depthDataSet, mappingQualityDataSet }
