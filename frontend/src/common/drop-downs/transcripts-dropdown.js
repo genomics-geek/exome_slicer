@@ -5,11 +5,12 @@ import { get, map } from 'lodash'
 import { TRANSCRIPTS as QUERY } from './queries'
 import SearchDropdown from './search-dropdown'
 
-export const reformatOptions = data => map(get(data, 'allTranscripts', []), element => ({
-  key: get(element, 'transcript'),
-  value: get(element, 'transcript'),
-  text: get(element, 'transcript')
-}))
+export const reformatOptions = data =>
+  map(get(data, 'allTranscripts', []), element => ({
+    key: get(element, 'transcript'),
+    value: get(element, 'transcript'),
+    text: get(element, 'transcript'),
+  }))
 
 const TranscriptsDropdown = props => (
   <SearchDropdown

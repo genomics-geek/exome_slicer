@@ -13,16 +13,16 @@ export const alertOptions = {
 }
 
 export const getColor = type => {
-  if (type==='error') return 'red'
-  else if (type==='info') return 'blue'
-  else if (type==='success') return 'green'
+  if (type === 'error') return 'red'
+  else if (type === 'info') return 'blue'
+  else if (type === 'success') return 'green'
   return 'grey'
 }
 
 export const getIcon = type => {
-  if (type==='error') return 'exclamation circle'
-  else if (type==='info') return 'info circle'
-  else if (type==='success') return 'check circle'
+  if (type === 'error') return 'exclamation circle'
+  else if (type === 'info') return 'info circle'
+  else if (type === 'success') return 'check circle'
   return 'question'
 }
 
@@ -45,7 +45,7 @@ AlertTemplate.propTypes = {
   close: PropTypes.func.isRequired,
   message: PropTypes.any.isRequired,
   options: PropTypes.shape({
-    type: PropTypes.string
+    type: PropTypes.string,
   }),
   style: PropTypes.shape({}),
 }

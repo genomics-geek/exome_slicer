@@ -1,7 +1,6 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
 
-
 const RecentNews = () => (
   <React.Fragment>
     <h1 className="recent-news title">Recent News</h1>
@@ -16,6 +15,5 @@ const RecentNews = () => (
     </List>
   </React.Fragment>
 )
-
 
 export default RecentNews

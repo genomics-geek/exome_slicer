@@ -26,7 +26,7 @@ const View = () => {
 
   const { data, error, loading } = useQuery(QUERY, {
     variables,
-    fetchPolicy: "cache-first",
+    fetchPolicy: 'cache-first',
     skip: !gene,
   })
 
@@ -42,7 +42,7 @@ const View = () => {
           <FilterModal
             filters={filters}
             onChange={(e, data) => setFilter(data)}
-            onSubmit={() => history.push({pathname: '', search: stringify(filters)})}
+            onSubmit={() => history.push({ pathname: '', search: stringify(filters) })}
           />
         </Grid.Column>
       </Grid.Row>

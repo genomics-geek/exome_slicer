@@ -7,10 +7,8 @@ import WelcomeBanner from './welcome-banner'
 
 import './index.scss'
 
-
 const Home = () => (
   <React.Fragment>
-
     <WelcomeBanner />
 
     <Grid padded className="about-section">
@@ -22,9 +20,7 @@ const Home = () => (
         <RecentNews />
       </Grid.Column>
     </Grid>
-
   </React.Fragment>
 )
-
 
 export default Home

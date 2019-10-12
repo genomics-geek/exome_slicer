@@ -3,15 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Divider, Message, Modal } from 'semantic-ui-react'
 
 const InfoModal = () => (
-  <Modal
-    trigger={
-      <Button
-        content="How to use"
-        icon="question"
-        color="facebook"
-      />
-    }
-  >
+  <Modal trigger={<Button content="How to use" icon="question" color="facebook" />}>
     <Modal.Header content="How to use Batch Analyzer" />
     <Modal.Content>
       <Message>
@@ -21,7 +13,7 @@ const InfoModal = () => (
           <Message.Item content="Save filters" />
         </Message.List>
         <Divider hidden />
-        <Message.Header content="This will return any regions that meet your filters!"/>
+        <Message.Header content="This will return any regions that meet your filters!" />
       </Message>
     </Modal.Content>
   </Modal>
@@ -32,7 +24,7 @@ InfoModal.propTypes = {
   filters: PropTypes.shape({
     genesIn: PropTypes.string,
     qualityFilters: PropTypes.string,
-  })
+  }),
 }
 
 export default InfoModal
