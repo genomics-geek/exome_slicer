@@ -1,0 +1,58 @@
+---
+# NodeJS and Yarn
+- name: Install NodeJS and yarn
+  shell: "{{ item }}"
+  with_items:
+    - curl -sL https://rpm.nodesource.com/setup_11.x | sudo -E bash -
+    - curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+  become: true
+  args:
+    warn: false
+  tags:
+    - setup
+    - custom_packages
+
+- name: Install NodeJS/Yarn packages
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - nodejs
+      - yarn
+  become: true
+  tags:
+    - setup
+    - custom_packages
+
+# direnv
+- name: Install direnv
+  shell: go get github.com/direnv/direnv
+  tags:
+    - setup
+    - custom_packages
+    - setup_user
+
+- name: Copy .envrc file
+  template:
+    src: envrc.j2
+    dest: "{{ project_home }}/.envrc"
+  become: true
+  tags:
+    - setup
+    - update
+    - custom_packages
+
+# Update .bashrc for all custom_packages
+- name: Edit .bashrc to have direnv hooked into the shell and export LD_LIBRARY_PATH for Oracle
+  blockinfile:
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    block: |
+      PATH=$PATH:$HOME/.local/bin:$HOME/bin:$HOME/go/bin
+      eval "$(direnv hook bash)"
+    insertafter: EOF
+    create: yes
+  tags:
+    - setup
+    - custom_packages
+    - setup_user

@@ -1,0 +1,16 @@
+[Unit]
+Description={{ project_name }}-taskapp daemon
+After=network.target
+After=syslog.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/{{ project_name }}
+User={{ svc_user }}
+Group={{ svc_group }}
+WorkingDirectory={{ project_home }}
+ExecStart={{ project_venv }}/bin/celery worker -A config.celery_app -E -l INFO -f {{ project_home }}/logs/celery/{{ project_name }}-taskapp.log
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

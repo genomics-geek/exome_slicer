@@ -1,7 +1,0 @@
----
-code_version: develop
-django_settings: config.settings.production
-
-# Sentry
-sentry_dsn: https://b78aa6af3040452a87fd9f4a1bdc4c28@sentry.io/1339864
-django_sentry_dsn: https://b78aa6af3040452a87fd9f4a1bdc4c28:{{ sentry_token }}@sentry.io/1339864

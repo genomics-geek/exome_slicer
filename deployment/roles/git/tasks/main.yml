@@ -1,0 +1,12 @@
+---
+- name: Pull down Repo
+  git:
+    repo: "{{ git_repo_url }}"
+    dest: "{{ project_home }}"
+    version: "{{ git_branch }}"
+    accept_hostkey: true
+    force: yes
+  tags:
+    - setup
+    - update
+    - git

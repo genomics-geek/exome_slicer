@@ -1,0 +1,16 @@
+[Unit]
+Description={{ project_name }} daemon
+After=network.target
+After=syslog.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/{{ project_name }}
+User={{ svc_user }}
+Group={{ svc_group }}
+WorkingDirectory={{ project_home }}
+ExecStart={{ project_venv }}/bin/gunicorn config.wsgi --max-requests 50 --workers 4 --threads 2 --access-logfile {{ project_home }}/logs/gunicorn/{{ inventory_hostname }}.access.log --error-logfile {{ project_home }}/logs/gunicorn/{{ inventory_hostname }}.error.log
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

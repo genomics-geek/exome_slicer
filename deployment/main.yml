@@ -1,0 +1,12 @@
+---
+# This playbook deploys the whole application stack.
+- name: Deploy application
+  hosts: all
+
+  roles:
+    - webserver
+    - git
+    - custom_packages
+    - django
+    - nginx
+    - services
