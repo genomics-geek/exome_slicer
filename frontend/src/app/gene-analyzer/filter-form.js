@@ -5,7 +5,7 @@ import { Form } from 'semantic-ui-react'
 import { GenesDropdown, TranscriptsDropdown } from 'common/drop-downs'
 
 
-const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => (
+const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange }) => (
   <Form>
     <Form.Dropdown
       label="Graphing Mode"
@@ -15,7 +15,7 @@ const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => 
       selection
       options={[
         {key: 'depth', value: 'depth', text: 'Depth'},
-        {key: 'quality', value: 'quality', text: 'Mapping Quality'},
+        {key: 'mappingQuality', value: 'mappingQuality', text: 'Mapping Quality'},
       ]}
       onChange={onChange}
     />
@@ -24,7 +24,12 @@ const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => 
       name="gene"
       control={GenesDropdown}
       value={gene}
-      onChange={onChange}
+      symbol={gene}
+      onChange={(e, data) => {
+        // NOTE: This ensures we reset transcript dropdown
+        onChange(e, data)
+        onChange(e, {...data, ...{name: 'transcript', value: ''}})
+      }}
       search
       selection
       clearable
@@ -34,6 +39,7 @@ const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => 
       name="transcript"
       control={TranscriptsDropdown}
       value={transcript}
+      transcript={transcript}
       onChange={onChange}
       gene={gene}
       search
@@ -42,16 +48,16 @@ const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => 
     />
     <Form.Input
       label="Avg. Mapping Quality"
-      name="quality"
+      name="mappingQuality"
       type="number"
-      value={quality}
+      value={mappingQuality}
       onChange={onChange}
     />
     <Form.Input
       label="Min. Depth"
-      name="coverage"
+      name="depth"
       type="number"
-      value={coverage}
+      value={depth}
       onChange={onChange}
     />
   </Form>
@@ -61,8 +67,8 @@ const FilterForm = ({ gene, transcript, quality, coverage, mode, onChange }) => 
 FilterForm.propTypes = {
   gene: PropTypes.string,
   transcript: PropTypes.string,
-  quality: PropTypes.number,
-  coverage: PropTypes.number,
+  mappingQuality: PropTypes.number,
+  depth: PropTypes.number,
   mode: PropTypes.string,
   onChange: PropTypes.func,
 }
