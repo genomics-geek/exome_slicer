@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ResponsiveLine } from '@nivo/line'
 import { Segment } from 'semantic-ui-react'
 import { get } from 'lodash'
@@ -14,7 +15,7 @@ const ToolTip = ({
   </Segment>
 )
 
-const Chart = ({ yLegend, data = [], threshold }) => {
+const Chart = ({ yLegend = '', data = [], threshold }) => {
   const exons = get(data, '[0].data').length
   return (
     <ResponsiveLine
@@ -92,6 +93,12 @@ const Chart = ({ yLegend, data = [], threshold }) => {
       }
     />
   )
+}
+
+Chart.propTypes = {
+  yLegend: PropTypes.oneOf(['MQ', 'DP']),
+  data: PropTypes.arrayOf(PropTypes.shape({})),
+  threshold: PropTypes.number,
 }
 
 export default Chart

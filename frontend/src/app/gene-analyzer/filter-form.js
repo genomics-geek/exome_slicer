@@ -57,12 +57,12 @@ const FilterForm = ({ gene, transcript, mappingQuality, depth, mode, onChange })
 )
 
 FilterForm.propTypes = {
+  mode: PropTypes.oneOf(['depth', 'mappingQuality']),
   gene: PropTypes.string,
   transcript: PropTypes.string,
   mappingQuality: PropTypes.number,
   depth: PropTypes.number,
-  mode: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default FilterForm

@@ -11,7 +11,7 @@ const RecentNews = () => (
       <List.Item>2018/04/11 - Release v0.2.0</List.Item>
       <List.Item>2018/09 - Published in the Journal of Molecular Diagnostics</List.Item>
       <List.Item>2018/12/07 - Release v1.0.0</List.Item>
-      <List.Item>2019/10/05 - Release v2.0.0</List.Item>
+      <List.Item>2019/10/14 - Release v2.0.0</List.Item>
     </List>
   </React.Fragment>
 )

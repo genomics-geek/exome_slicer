@@ -28,9 +28,9 @@ const FilterForm = ({ genes, mappingQuality, depth, onChange }) => (
 
 FilterForm.propTypes = {
   genes: PropTypes.string,
-  quality: PropTypes.number,
-  coverage: PropTypes.number,
-  onChange: PropTypes.func,
+  mappingQuality: PropTypes.number,
+  depth: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default FilterForm

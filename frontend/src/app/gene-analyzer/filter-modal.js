@@ -4,7 +4,7 @@ import { Button, Modal } from 'semantic-ui-react'
 
 import FilterForm from './filter-form'
 
-const FilterModal = ({ filters, onChange, onSubmit }) => {
+const FilterModal = ({ filters = {}, onChange, onSubmit }) => {
   const [visible, setVisible] = useState(false)
 
   return (
@@ -34,13 +34,9 @@ const FilterModal = ({ filters, onChange, onSubmit }) => {
 }
 
 FilterModal.propTypes = {
-  onChange: PropTypes.func,
-  setFilter: PropTypes.func,
-  filters: PropTypes.shape({
-    gene: PropTypes.string,
-    transcript: PropTypes.string,
-    qualityFilters: PropTypes.string,
-  }),
+  filters: PropTypes.shape(),
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default FilterModal
