@@ -32,7 +32,7 @@ const View = () => {
 
   if (error) return <Alert type="error" message={`Gene Query: ${error.message}`} />
   if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
-  const {rows, depthDataSet, mappingQualityDataSet} = parseQuery(data)
+  const { rows, depthDataSet, mappingQualityDataSet } = parseQuery(data)
 
   return (
     <Grid padded>

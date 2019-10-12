@@ -8,34 +8,40 @@ export const parseQuery = data => {
   const avgMQ = []
   const minDepth = []
   const minMQ = []
+  let selectedTranscript
 
   map(get(data, 'allQualityStats.edges', []), row => {
     const node = get(row, 'node')
-    rows.push(node)
-    minDepth.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'minCoverage'),
-    })
-    maxDepth.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'maxCoverage'),
-    })
-    avgDepth.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'avgCoverage'),
-    })
-    minMQ.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'minMappingQuality'),
-    })
-    maxMQ.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'maxMappingQuality'),
-    })
-    avgMQ.push({
-      x: get(node, 'cdsExon'),
-      y: get(node, 'avgMappingQuality'),
-    })
+    const transcript = get(node, 'transcript')
+    if (!selectedTranscript) selectedTranscript = transcript
+
+    if (selectedTranscript === transcript) {
+      rows.push(node)
+      minDepth.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'minCoverage'),
+      })
+      maxDepth.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'maxCoverage'),
+      })
+      avgDepth.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'avgCoverage'),
+      })
+      minMQ.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'minMappingQuality'),
+      })
+      maxMQ.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'maxMappingQuality'),
+      })
+      avgMQ.push({
+        x: get(node, 'cdsExon'),
+        y: get(node, 'avgMappingQuality'),
+      })
+    }
   })
 
   const depthDataSet = [
