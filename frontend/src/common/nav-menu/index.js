@@ -9,8 +9,8 @@ const NavMenu = () => (
     </Menu.Item>
 
     <Menu.Menu position="right">
-      <Menu.Item name="gene-analyzer" as={NavLink} to="/app/gene-analyzer/" />
-      <Menu.Item name="batch-analyzer" as={NavLink} to="/app/batch-analyzer/" />
+      <Menu.Item name="gene-analyzer" as={NavLink} to="/app/gene-analyzer/?mode=depth&depth=15&mappingQuality=30" />
+      <Menu.Item name="batch-analyzer" as={NavLink} to="/app/batch-analyzer/?depth=15&mappingQuality=30" />
       <Menu.Item
         icon="github"
         as="a"

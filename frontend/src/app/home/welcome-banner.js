@@ -31,7 +31,9 @@ const WelcomeBanner = () => {
             fluid
             search
             selection
-            onChange={(e, { name, value }) => history.push(`/app/gene-analyzer/?gene=${value}&mode=depth`)}
+            onChange={(e, { name, value }) =>
+              history.push(`/app/gene-analyzer/?gene=${value}&mode=depth&depth=15&mappingQuality=30`)
+            }
           />
         </Grid.Column>
       </Grid.Row>

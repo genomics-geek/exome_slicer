@@ -49,18 +49,22 @@ const View = () => {
 
       <Grid.Row>
         <Grid.Column width={16}>
-          <div style={{ height: 300 }}>
-            {mode === 'depth' && <Chart yLegend="DP" data={depthDataSet} threshold={depth} />}
-            {mode === 'mappingQuality' && (
-              <Chart yLegend="MQ" data={mappingQualityDataSet} threshold={mappingQuality} />
-            )}
-          </div>
+          {!gene ? (
+            <p>No gene selected!</p>
+          ) : (
+            <div style={{ height: 300 }}>
+              {mode === 'depth' && <Chart yLegend="DP" data={depthDataSet} threshold={depth} />}
+              {mode === 'mappingQuality' && (
+                <Chart yLegend="MQ" data={mappingQualityDataSet} threshold={mappingQuality} />
+              )}
+            </div>
+          )}
         </Grid.Column>
       </Grid.Row>
 
       <Grid.Row>
         <Grid.Column width={16}>
-          <DataTable rows={rows} maxHeight={innerHeight - 200} />
+          <DataTable rows={rows} maxHeight={innerHeight - 300} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
