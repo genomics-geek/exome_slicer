@@ -1,54 +1,70 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Query } from 'react-apollo'
-import { withRouter } from 'react-router-dom'
-import { get, map } from 'lodash'
+import React from 'react'
+import { useQuery } from '@apollo/react-hooks'
+import { useHistory } from 'react-router-dom'
+import { useFormInput, useWindowSize } from 'react-genomix/lib/hooks'
+import { Grid } from 'semantic-ui-react'
+import { stringify } from 'query-string'
 
 import Alert from 'common/alert'
 import { DimmerLoading } from 'common/loaders'
+import { useQueryParams } from 'common/hooks'
+import { DownloadButton } from 'common/buttons'
+import { DataTable } from 'common/tables'
 
-import GeneAnalyzer from './components/presentational/gene-analyzer'
+import { QUERY } from './queries'
+import { parseQuery } from './parsers'
 
-import { QUERY } from './queries/gene-query'
+import FilterModal from './filter-modal'
+import Chart from './chart'
 
+const View = () => {
+  const { innerHeight } = useWindowSize()
+  const history = useHistory()
+  const variables = useQueryParams()
+  const { gene, mappingQuality, depth, mode } = variables
+  const [filters, setFilter] = useFormInput(variables)
 
-const View = ({ match }) => {
-  const gene = get(match, 'params.gene', 'MFN2')
-  const defaultFilters = {gene, transcript:""}
-  const [filters, setFilter] = useState(defaultFilters)
+  const { data, error, loading } = useQuery(QUERY, {
+    variables,
+    fetchPolicy: "cache-first",
+    skip: !gene,
+  })
+
+  if (error) return <Alert type="error" message={`Gene Query: ${error.message}`} />
+  if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
+  const { rows, depthDataSet, mappingQualityDataSet } = parseQuery(data)
 
   return (
-    <Query
-      query={QUERY}
-      variables={filters}
-      fetchPolicy="cache-first"
-    >
-      {({ loading, error, data }) => {
-        if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
-        if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
-
-        const rows = map(get(data, 'allQualityStats.edges', []), row => get(row, 'node'))
-
-        return (
-          <GeneAnalyzer
-            rows={rows}
-            setFilter={setFilter}
+    <Grid padded>
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <DownloadButton color="twitter" data={rows} filename="gene-download.csv" />
+          <FilterModal
             filters={filters}
+            onChange={(e, data) => setFilter(data)}
+            onSubmit={() => history.push({pathname: '', search: stringify(filters)})}
           />
-        )
-      }}
-    </Query>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <div style={{ height: 300 }}>
+            {mode === 'depth' && <Chart yLegend="DP" data={depthDataSet} threshold={depth} />}
+            {mode === 'mappingQuality' && (
+              <Chart yLegend="MQ" data={mappingQualityDataSet} threshold={mappingQuality} />
+            )}
+          </div>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <DataTable rows={rows} maxHeight={innerHeight - 200} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   )
 }
 
-
-View.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      gene: PropTypes.string,
-    })
-  })
-}
-
-
-export default withRouter(View)
+export default View

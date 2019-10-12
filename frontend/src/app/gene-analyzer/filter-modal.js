@@ -5,7 +5,7 @@ import { Button, Modal } from 'semantic-ui-react'
 import FilterForm from './filter-form'
 
 
-const FilterModal = ({ filters, setFilter, onChange }) => {
+const FilterModal = ({ filters, onChange, onSubmit }) => {
   const [visible, setVisible] = useState(false)
 
   return (
@@ -20,19 +20,10 @@ const FilterModal = ({ filters, setFilter, onChange }) => {
         />
       }
     >
-
       <Modal.Header content="Batch Filters" />
       <Modal.Content>
-        <FilterForm
-          gene={filters.gene}
-          transcript={filters.transcript}
-          coverage={filters.coverage}
-          quality={filters.quality}
-          mode={filters.mode}
-          onChange={onChange}
-        />
+        <FilterForm {...filters} onChange={onChange}/>
       </Modal.Content>
-
       <Modal.Actions>
         <Button
           basic
@@ -48,10 +39,7 @@ const FilterModal = ({ filters, setFilter, onChange }) => {
 					content="Save"
 					onClick={() => {
 						setVisible(false)
-            setFilter({
-              "gene": filters.gene,
-              "transcript": filters.transcript,
-            })
+            onSubmit()
 					}}
 				/>
 			</Modal.Actions>
