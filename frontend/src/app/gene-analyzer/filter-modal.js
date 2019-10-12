@@ -22,14 +22,7 @@ const FilterModal = ({ filters, onChange, onSubmit }) => {
     >
       <Modal.Header content="Batch Filters" />
       <Modal.Content>
-        <FilterForm
-          gene={filters.gene}
-          transcript={filters.transcript}
-          coverage={filters.coverage}
-          quality={filters.quality}
-          mode={filters.mode}
-          onChange={onChange}
-        />
+        <FilterForm {...filters} onChange={onChange}/>
       </Modal.Content>
       <Modal.Actions>
         <Button
