@@ -23,7 +23,6 @@ const View = () => {
   const variables = useQueryParams()
   const { genes } = variables
   const [filters, setFilter] = useFormInput(variables)
-  console.log(variables)
 
   const { data, error, loading } = useQuery(QUERY, {
     variables: { ...variables, qualityFilters: `${variables.depth},${variables.mappingQuality}` },
