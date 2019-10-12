@@ -40,30 +40,30 @@ export const parseQuery = data => {
 
   const depthDataSet = [
     {
-      id: "Minimum Depth",
+      id: "Min DP",
       data: minDepth
     },
     {
-      id: "Average Depth",
+      id: "Avg DP",
       data: avgDepth
     },
     {
-      id: "Max Depth",
+      id: "Max DP",
       data: maxDepth
     }
   ]
 
   const mappingQualityDataSet = [
     {
-      id: "Minimum Mapping Quality",
+      id: "Min MQ",
       data: minMQ
     },
     {
-      id: "Average Mapping Quality",
+      id: "Avg MQ",
       data: avgMQ
     },
     {
-      id: "Max Mapping Quality",
+      id: "Max MQ",
       data: maxMQ
     }
   ]

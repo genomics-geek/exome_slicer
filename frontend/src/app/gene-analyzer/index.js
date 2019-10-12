@@ -50,9 +50,9 @@ const View = () => {
       <Grid.Row>
         <Grid.Column width={16}>
           <div style={{ height: 300 }}>
-            {mode === 'depth' && <Chart yLegend="Depth" data={depthDataSet} threshold={depth} />}
+            {mode === 'depth' && <Chart yLegend="DP" data={depthDataSet} threshold={depth} />}
             {mode === 'mappingQuality' && (
-              <Chart yLegend="Mapping Quality" data={mappingQualityDataSet} threshold={mappingQuality} />
+              <Chart yLegend="MQ" data={mappingQualityDataSet} threshold={mappingQuality} />
             )}
           </div>
         </Grid.Column>
