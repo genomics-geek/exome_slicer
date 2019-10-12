@@ -3,9 +3,11 @@ import { get, map } from 'lodash'
 export const parseQuery = data => {
   const rows = []
   const maxDepth = []
+  const maxMQ = []
   const avgDepth = []
+  const avgMQ = []
   const minDepth = []
-
+  const minMQ = []
 
   map(get(data, 'allQualityStats.edges', []), row => {
     const node = get(row, 'node')
@@ -21,6 +23,18 @@ export const parseQuery = data => {
     avgDepth.push({
       x: get(node, 'cdsExon'),
       y: get(node, 'avgCoverage'),
+    })
+    minMQ.push({
+      x: get(node, 'cdsExon'),
+      y: get(node, 'minMappingQuality'),
+    })
+    maxMQ.push({
+      x: get(node, 'cdsExon'),
+      y: get(node, 'maxMappingQuality'),
+    })
+    avgMQ.push({
+      x: get(node, 'cdsExon'),
+      y: get(node, 'avgMappingQuality'),
     })
   })
 
@@ -39,5 +53,20 @@ export const parseQuery = data => {
     }
   ]
 
-  return { rows, depthDataSet }
+  const mappingQualityDataSet = [
+    {
+      id: "Minimum Mapping Quality",
+      data: minMQ
+    },
+    {
+      id: "Average Mapping Quality",
+      data: avgMQ
+    },
+    {
+      id: "Max Mapping Quality",
+      data: maxMQ
+    }
+  ]
+
+  return { rows, depthDataSet, mappingQualityDataSet }
 }
