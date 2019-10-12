@@ -4,7 +4,7 @@ import { Dropdown } from 'semantic-ui-react'
 import { map } from 'lodash'
 import update from 'immutability-helper'
 
-const AutocompleteDropdown = ({ refetch, searchVariable, initialVariables, ...props }) => {
+const AutocompleteDropdown = ({ refetch, searchVariable, initialVariables = [], ...props }) => {
   const countRef = useRef(null)
   countRef.current = null
 
@@ -26,10 +26,6 @@ AutocompleteDropdown.propTypes = {
   refetch: PropTypes.func,
   searchVariable: PropTypes.string.isRequired,
   initialVariables: PropTypes.arrayOf(PropTypes.string),
-}
-
-AutocompleteDropdown.defaultProps = {
-  initialVariables: [],
 }
 
 export default AutocompleteDropdown

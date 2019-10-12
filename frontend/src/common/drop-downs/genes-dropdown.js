@@ -13,8 +13,9 @@ export const reformatOptions = data => map(get(data, 'allGenes', []), element =>
 const GenesDropdown = props => (
   <SearchDropdown
     query={QUERY}
-    variables={{ search: '' }}
+    variables={{ search: '', symbol: props.symbol }}
     searchVariable="search"
+    initialVariables={['symbol']}
     reformatOptions={reformatOptions}
     {...props}
   />

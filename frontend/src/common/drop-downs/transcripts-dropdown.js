@@ -14,8 +14,9 @@ export const reformatOptions = data => map(get(data, 'allTranscripts', []), elem
 const TranscriptsDropdown = props => (
   <SearchDropdown
     query={QUERY}
-    variables={{ search: '', gene: props.gene }}
+    variables={{ search: '', gene: props.gene, transcript: props.transcript }}
     searchVariable="search"
+    initialVariables={['transcript']}
     reformatOptions={reformatOptions}
     {...props}
   />
