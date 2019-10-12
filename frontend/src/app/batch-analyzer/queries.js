@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const QUERY = gql`
-  query allQualityStats($genesIn: String!, $qualityFilters: String!) {
-    allQualityStats(genesIn: $genesIn, qualityFilters: $qualityFilters) {
+  query allQualityStats($genes: String!, $qualityFilters: String!) {
+    allQualityStats(genes: $genes, qualityFilters: $qualityFilters) {
       edges {
         node {
           id

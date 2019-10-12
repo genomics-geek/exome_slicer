@@ -1,24 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { useWindowSize } from 'react-genomix/lib/hooks'
+import { useHistory } from 'react-router-dom'
+import { useFormInput, useWindowSize } from 'react-genomix/lib/hooks'
 import { Grid } from 'semantic-ui-react'
+import { stringify } from 'query-string'
 
 import Alert from 'common/alert'
-import { DownloadButton } from 'common/buttons'
 import { DimmerLoading } from 'common/loaders'
+import { useQueryParams } from 'common/hooks'
+import { DownloadButton } from 'common/buttons'
 import { DataTable } from 'common/tables'
-
-import FilterModal from './filter-modal'
-import InfoModal from './info-modal'
 
 import { QUERY } from './queries'
 import { parseQuery } from './parsers'
 
+import FilterModal from './filter-modal'
+import InfoModal from './info-modal'
+
 const View = () => {
-  const defaultFilters = { genesIn: 'MFN2,MFN1', qualityFilters: '15,30' }
-  const [filters, setFilter] = useState(defaultFilters)
   const { innerHeight } = useWindowSize()
-  const { data, error, loading } = useQuery(QUERY, { variables: filters, fetchPolicy: 'cache-first' })
+  const history = useHistory()
+  const variables = useQueryParams()
+  const { genes } = variables
+  const [filters, setFilter] = useFormInput(variables)
+  console.log(variables)
+
+  const { data, error, loading } = useQuery(QUERY, {
+    variables: { ...variables, qualityFilters: `${variables.depth},${variables.mappingQuality}` },
+    fetchPolicy: 'cache-first',
+    skip: !genes,
+  })
 
   if (error) return <Alert type="error" message={`Batch Query: ${error.message}`} />
   if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
@@ -29,7 +40,11 @@ const View = () => {
       <Grid.Row>
         <Grid.Column width={16}>
           <DownloadButton color="twitter" data={rows} filename="batch-download.csv" />
-          <FilterModal filters={filters} setFilter={setFilter} />
+          <FilterModal
+            filters={filters}
+            onChange={(e, data) => setFilter(data)}
+            onSubmit={() => history.push({ pathname: '', search: stringify(filters) })}
+          />
           <InfoModal />
         </Grid.Column>
       </Grid.Row>

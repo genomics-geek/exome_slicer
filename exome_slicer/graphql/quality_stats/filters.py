@@ -9,7 +9,7 @@ from ..filterset import BaseFilterSet
 
 class QualityStatFilter(BaseFilterSet):
 
-    genes_in = BaseInFilter(label='Genes', method='filter_genes_in')
+    genes = BaseInFilter(label='Genes', method='filter_genes')
     quality_filters = BaseInFilter(
         label='Quality Filter',
         method='filter_quality_filters',
@@ -20,7 +20,7 @@ class QualityStatFilter(BaseFilterSet):
         model = QualityStat
         fields = '__all__'
 
-    def filter_genes_in(self, qs, field_name, value):
+    def filter_genes(self, qs, field_name, value):
         return qs.filter(gene__in=[x.upper() for x in value]).distinct()
 
     def filter_quality_filters(self, queryset, name, value):

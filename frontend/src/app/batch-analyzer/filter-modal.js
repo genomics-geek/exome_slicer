@@ -1,20 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Modal } from 'semantic-ui-react'
-import { useFormInput } from 'react-genomix/lib/hooks'
-import { get, split } from 'lodash'
 
 import FilterForm from './filter-form'
 
-const FilterModal = ({ filters, setFilter }) => {
-  const qualityFilters = split(get(filters, 'qualityFilters', '15,30'), ',')
-  const genes = filters.genesIn
-  const coverage = parseInt(get(qualityFilters, '[0]', 15), 10)
-  const quality = parseInt(get(qualityFilters, '[1]', 30), 10)
-
-  const defaultFilters = { genes, coverage, quality }
+const FilterModal = ({ filters, onChange, onSubmit }) => {
   const [visible, setVisible] = useState(false)
-  const [values, setValues, resetFilters] = useFormInput(defaultFilters)
 
   return (
     <Modal
@@ -23,25 +14,11 @@ const FilterModal = ({ filters, setFilter }) => {
     >
       <Modal.Header content="Batch Filters" />
       <Modal.Content>
-        <FilterForm
-          genes={values.genes}
-          coverage={values.coverage}
-          quality={values.quality}
-          onChange={(e, data) => setValues(data)}
-        />
+        <FilterForm {...filters} onChange={onChange} />
       </Modal.Content>
 
       <Modal.Actions>
-        <Button
-          basic
-          negative
-          icon="x"
-          content="Cancel"
-          onClick={() => {
-            setVisible(false)
-            resetFilters(defaultFilters)
-          }}
-        />
+        <Button basic negative icon="x" content="Cancel" onClick={() => setVisible(false)} />
         <Button
           basic
           positive
@@ -49,11 +26,7 @@ const FilterModal = ({ filters, setFilter }) => {
           content="Save"
           onClick={() => {
             setVisible(false)
-            resetFilters(defaultFilters)
-            setFilter({
-              genesIn: values.genes,
-              qualityFilters: `${values.coverage},${values.quality}`,
-            })
+            onSubmit()
           }}
         />
       </Modal.Actions>

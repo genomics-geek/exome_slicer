@@ -12,11 +12,17 @@ const handleGenesInput = (onChange, { name, value }) => {
   onChange({}, { name: name, value: genesFilter })
 }
 
-const FilterForm = ({ genes, quality, coverage, onChange }) => (
+const FilterForm = ({ genes, mappingQuality, depth, onChange }) => (
   <Form>
     <Form.TextArea label="Genes" name="genes" value={genes} onChange={(e, data) => handleGenesInput(onChange, data)} />
-    <Form.Input label="Avg. Mapping Quality" name="quality" type="number" value={quality} onChange={onChange} />
-    <Form.Input label="Min. Depth" name="coverage" type="number" value={coverage} onChange={onChange} />
+    <Form.Input
+      label="Avg. Mapping Quality"
+      name="mappingQuality"
+      type="number"
+      value={mappingQuality}
+      onChange={onChange}
+    />
+    <Form.Input label="Min. Depth" name="depth" type="number" value={depth} onChange={onChange} />
   </Form>
 )
 
