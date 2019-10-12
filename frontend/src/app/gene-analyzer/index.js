@@ -13,7 +13,9 @@ import { DataTable } from 'common/tables'
 
 import { QUERY } from './queries'
 import { parseQuery } from './parsers'
+
 import FilterModal from './filter-modal'
+import DepthChart from './depth-chart'
 
 const View = () => {
   const { innerHeight } = useWindowSize()
@@ -30,7 +32,7 @@ const View = () => {
 
   if (error) return <Alert type="error" message={`Gene Query: ${error.message}`} />
   if (loading) return <DimmerLoading fullpage message="Retrieving data..." />
-  const rows = parseQuery(data)
+  const {rows, depthDataSet} = parseQuery(data)
 
   return (
     <Grid padded>
@@ -47,12 +49,14 @@ const View = () => {
 
       <Grid.Row>
         <Grid.Column width={16}>
-          {mode === 'depth' && (
-            <p>Depth</p>
-          )}
-          {mode === 'mappingQuality' && (
-            <p>Mappting Quality</p>
-          )}
+          <div style={{ height: 200 }}>
+            {mode === 'depth' && (
+              <DepthChart data={depthDataSet} />
+            )}
+            {mode === 'mappingQuality' && (
+              <p>Mappting Quality</p>
+            )}
+          </div>
         </Grid.Column>
       </Grid.Row>
 
