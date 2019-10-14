@@ -72,22 +72,6 @@
     - update
     - django
 
-- name: Create initial reversions
-  command: "{{ project_venv }}/bin/python manage.py createinitialrevisions"
-  args:
-    chdir: "{{ project_home }}"
-  environment:
-    - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
-    - DJANGO_SECRET_KEY: "{{ django_secret_key }}"
-    - DJANGO_ADMIN_URL: "{{ django_admin_url }}"
-    - DATABASE_URL: "{{ django_database_url }}"
-    - MAILGUN_DOMAIN: "{{ mailgun_sender_domain }}"
-    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
-    - SENTRY_DSN: "{{ sentry_dsn }}"
-  tags:
-    - setup
-    - django
-
 - name: Create Media directory
   file:
     path: "{{ project_home }}/exome_slicer/media/"
