@@ -4,6 +4,7 @@ export DJANGO_SECRET_KEY="{{ django_secret_key }}"
 export DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,.dgdnexus.chop.edu,.{{ inventory_hostname }},.{{ ansible_hostname }}
 export DJANGO_LOG_LEVEL=INFO
 export DJANGO_ADMIN_URL={{ django_admin_url }}
+DATABASE_URL={{ django_database_url }}
 
 # EMAIL
 export MAILGUN_DOMAIN={{ mailgun_sender_domain }}

@@ -5,8 +5,7 @@ project_home: "{{ deploy_directory }}/exome_slicer"
 project_venv: "{{ project_home }}/pyvenv"
 svc_user: exome_slicer
 svc_group: DGD_Clinical
-postgres_user: postgres
-django_database_user: django
+django_database_url: sqlite:///exome_slicer.db
 
 # Git settings
 git_repo_url: https://github.com/genomics-geek/exome_slicer.git
