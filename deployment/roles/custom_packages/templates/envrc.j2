@@ -1,0 +1,22 @@
+# General settings
+export DJANGO_SETTINGS_MODULE={{ django_settings }}
+export DJANGO_SECRET_KEY="{{ django_secret_key }}"
+export DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,.dgdnexus.chop.edu,.{{ inventory_hostname }},.{{ ansible_hostname }}
+export DJANGO_LOG_LEVEL=INFO
+export DJANGO_ADMIN_URL={{ django_admin_url }}
+export DATABASE_URL={{ django_database_url }}
+
+# EMAIL
+export MAILGUN_DOMAIN={{ mailgun_sender_domain }}
+export MAILGUN_API_KEY={{ mailgun_api_key }}
+export DJANGO_DEFAULT_FROM_EMAIL="ExomeSlicer <noreply@{{ inventory_hostname }}>"
+
+# Security! Better to use DNS for this task, but you can use redirect
+export DJANGO_SECURE_SSL_REDIRECT=True
+export DJANGO_SESSION_COOKIE_SECURE=True
+export DJANGO_SESSION_COOKIE_HTTPONLY=True
+export DJANGO_CSRF_COOKIE_SECURE=True
+export DJANGO_CSRF_COOKIE_HTTPONLY=False
+
+# Sentry
+export SENTRY_DSN={{ sentry_dsn }}

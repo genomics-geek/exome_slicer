@@ -1,0 +1,107 @@
+---
+- name: Create Debian style NGINX directories
+  file:
+    path: "/etc/nginx/{{ item }}"
+    state: directory
+    mode: 0744
+  with_items:
+    - sites-available
+    - sites-enabled
+    - ssl.crt
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: Create Nginx logs directory
+  file:
+    path: "{{ project_home }}/logs/nginx"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ svc_group }}"
+    state: directory
+    mode: 0755
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: Copy nginx configuration templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'exome_slicer.conf.j2', dest: '/etc/nginx/sites-available/exome_slicer.conf' }
+    - { src: 'flower.conf.j2', dest: '/etc/nginx/sites-available/flower.conf' }
+
+  become: true
+  tags:
+    - setup
+    - update
+    - nginx
+
+- name: Copy nginx files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "{{ role_path }}/files/nginx.conf", dest: '/etc/nginx/nginx.conf' }
+    - { src: "{{ role_path }}/files/default.conf", dest: '/etc/nginx/sites-available/default.conf' }
+    - { src: "{{ role_path }}/files/star_chop_edu.key", dest: '/etc/nginx/ssl.crt/star_chop_edu.key' }
+    - { src: "{{ role_path }}/files/star_chop_edu.nokey.pem", dest: '/etc/nginx/ssl.crt/star_chop_edu.nokey.pem' }
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: Enable Sites
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    mode: 0744
+  with_items:
+    - { src: '/etc/nginx/sites-available/exome_slicer.conf', dest: '/etc/nginx/sites-enabled/exome_slicer.conf' }
+    - { src: '/etc/nginx/sites-available/flower.conf', dest: '/etc/nginx/sites-enabled/flower.conf' }
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: Enable HTTP rule for NGINX
+  firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - http
+    - https
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: Create NGINX user
+  user:
+    name: nginx
+    group: "{{ svc_group }}"
+    comment: NGINXUser
+    shell: /sbin/nologin
+    createhome: no
+  become: true
+  tags:
+    - setup
+    - nginx
+
+- name: restart services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - nginx
+    - firewalld
+  become: true
+  tags:
+    - setup
+    - update
+    - nginx

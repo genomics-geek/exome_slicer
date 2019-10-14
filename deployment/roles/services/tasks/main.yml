@@ -1,0 +1,74 @@
+---
+- name: Create service user
+  user:
+    name: "{{ svc_user }}"
+    group: "{{ svc_group }}"
+    comment: ExomeSlicerUser
+    shell: /sbin/nologin
+    createhome: yes
+  become: true
+  tags:
+    - setup
+    - update
+    - services
+
+- name: Copy service files and environment file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: gunicorn.service.j2, dest: "/usr/lib/systemd/system/{{ project_name }}.service" }
+    - { src: env.j2, dest: "/etc/sysconfig/{{ project_name }}" }
+  become: true
+  tags:
+    - setup
+    - update
+    - services
+
+- name: Create Gunicorn logs directory
+  file:
+    path: "{{ project_home }}/logs/gunicorn"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ svc_group }}"
+    state: directory
+    mode: 0755
+  become: true
+  tags:
+    - setup
+    - services
+
+- name: Update deployment folder
+  file:
+    path: "{{ deploy_directory }}"
+    owner: "{{ svc_user }}"
+    group: "{{ svc_group }}"
+    mode: 0755
+    state: directory
+    recurse: yes
+  become: true
+  tags:
+    - setup
+    - update
+    - services
+
+- name: restart services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - "{{ project_name }}"
+  become: true
+  tags:
+    - setup
+    - update
+    - services
+
+- name: Disable maintenance mode
+  file:
+    path: "/srv/maintenance.html"
+    state: absent
+  become: true
+  tags:
+    - update
+    - webserver

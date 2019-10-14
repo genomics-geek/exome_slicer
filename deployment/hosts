@@ -1,0 +1,8 @@
+[develop]
+dgdnexus-dev.chop.edu
+
+[production]
+exomeslicer.chop.edu
+
+[test]
+dgdnexus-test.chop.edu

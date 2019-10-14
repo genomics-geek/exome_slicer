@@ -1,0 +1,23 @@
+# Project settings
+deploy_directory: /data
+project_name: exome_slicer
+project_home: "{{ deploy_directory }}/exome_slicer"
+project_venv: "{{ project_home }}/pyvenv"
+svc_user: exome_slicer
+svc_group: DGD_Clinical
+django_database_url: sqlite:///exome_slicer.db
+
+# Git settings
+git_repo_url: https://github.com/genomics-geek/exome_slicer.git
+git_project_url: https://github.com/genomics-geek/exome_slicer
+
+# Django settings
+django_requirements: "{{ project_home }}/requirements/production.txt"
+django_admin_url: admin/
+django_session_cookie_httponly: true
+django_session_cookie_secure: true
+django_csrf_cookie_httponly: false
+django_csrf_cookie_secure: true
+
+# Mailgun settings
+mailgun_sender_domain: email.genomics-geek.com

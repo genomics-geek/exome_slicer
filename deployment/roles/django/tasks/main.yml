@@ -1,0 +1,140 @@
+- name: Install python requirements
+  pip:
+    requirements: "{{ django_requirements }}"
+    virtualenv: "{{ project_venv }}"
+    virtualenv_python: python3.6
+    state: forcereinstall
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Install JS depedencies
+  command: "yarn install"
+  args:
+    chdir: "{{ project_home }}/frontend"
+  environment:
+    - NODE_PATH: src/
+    - REACT_APP_SENTRY_URL: "{{ sentry_dsn }}"
+    - REACT_APP_HOST_URL: "{{ ansible_hostname }}"
+    - REACT_APP_GIT_URL: "{{ git_project_url }}"
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Front-end build
+  command: "yarn build"
+  args:
+    chdir: "{{ project_home }}/frontend"
+  environment:
+    - NODE_PATH: src/
+    - REACT_APP_SENTRY_URL: "{{ sentry_dsn }}"
+    - REACT_APP_HOST_URL: "{{ ansible_hostname }}"
+    - REACT_APP_GIT_URL: "{{ git_project_url }}"
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Generate static files
+  command: "{{ project_venv }}/bin/python manage.py collectstatic --no-input"
+  args:
+    chdir: "{{ project_home }}"
+  environment:
+    - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
+    - DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+    - DJANGO_ADMIN_URL: "{{ django_admin_url }}"
+    - DATABASE_URL: "{{ django_database_url }}"
+    - MAILGUN_DOMAIN: "{{ mailgun_sender_domain }}"
+    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
+    - SENTRY_DSN: "{{ sentry_dsn }}"
+  become: true
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Migrate database
+  command: "{{ project_venv }}/bin/python manage.py migrate"
+  args:
+    chdir: "{{ project_home }}"
+  environment:
+    - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
+    - DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+    - DJANGO_ADMIN_URL: "{{ django_admin_url }}"
+    - DATABASE_URL: "{{ django_database_url }}"
+    - MAILGUN_DOMAIN: "{{ mailgun_sender_domain }}"
+    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
+    - SENTRY_DSN: "{{ sentry_dsn }}"
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Create initial reversions
+  command: "{{ project_venv }}/bin/python manage.py createinitialrevisions"
+  args:
+    chdir: "{{ project_home }}"
+  environment:
+    - DJANGO_SETTINGS_MODULE: "{{ django_settings }}"
+    - DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+    - DJANGO_ADMIN_URL: "{{ django_admin_url }}"
+    - DATABASE_URL: "{{ django_database_url }}"
+    - MAILGUN_DOMAIN: "{{ mailgun_sender_domain }}"
+    - MAILGUN_API_KEY: "{{ mailgun_api_key }}"
+    - SENTRY_DSN: "{{ sentry_dsn }}"
+  tags:
+    - setup
+    - django
+
+- name: Create Media directory
+  file:
+    path: "{{ project_home }}/exome_slicer/media/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ svc_group }}"
+    state: directory
+    mode: 0755
+  become: true
+  tags:
+    - setup
+    - django
+
+- name: Change ownership of project
+  file:
+    path: "{{ project_home }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ svc_group }}"
+    state: directory
+    recurse: yes
+    mode: 0755
+  become: true
+  tags:
+    - setup
+    - update
+    - django
+
+- name: Open ports
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: true
+    state: enabled
+  with_items:
+    - 8000
+    - 8080
+    - 8081
+    - 8082
+  become: true
+  tags:
+    - setup
+    - django
+
+- name: restart firewall
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes
+  become: true
+  tags:
+    - setup
+    - django

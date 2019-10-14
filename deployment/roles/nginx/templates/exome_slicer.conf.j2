@@ -1,0 +1,73 @@
+server {
+    listen 80;
+    server_name {{ inventory_hostname }};
+    access_log {{ project_home }}/logs/nginx/{{ inventory_hostname }}.access.log main;
+    error_log {{ project_home }}/logs/nginx/{{ inventory_hostname }}.error.log warn;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias {{ project_home }}/staticfiles/;
+    }
+
+    location /media/ {
+        alias {{ project_home }}/media/;
+    }
+
+    location @exome_slicer {
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 75s;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_redirect off;
+        proxy_request_buffering off;
+        proxy_buffering off;
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root /srv/;
+        try_files /maintenance.html @exome_slicer;
+    }
+}
+
+server {
+    listen 443;
+    server_name {{ inventory_hostname }};
+    access_log {{ project_home }}/logs/nginx/{{ inventory_hostname }}.access.log main;
+    error_log {{ project_home }}/logs/nginx/{{ inventory_hostname }}.error.log warn;
+
+    ssl on;
+    ssl_certificate /etc/nginx/ssl.crt/star_chop_edu.nokey.pem;
+    ssl_certificate_key /etc/nginx/ssl.crt/star_chop_edu.key;
+
+    client_max_body_size 4G;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias {{ project_home }}/staticfiles/;
+    }
+
+    location /media/ {
+        alias {{ project_home }}/exome_slicer/media/;
+    }
+
+    location @exome_slicer {
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 75s;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;  # <-
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_request_buffering off;
+        proxy_buffering off;
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root /srv/;
+        try_files /maintenance.html @exome_slicer;
+    }
+}

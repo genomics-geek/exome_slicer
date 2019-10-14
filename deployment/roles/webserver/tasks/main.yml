@@ -1,0 +1,117 @@
+---
+- name: Enable maintenance mode
+  template:
+    src: "{{ role_path }}/templates/maintenance.j2"
+    dest: "/srv/maintenance.html"
+  become: true
+  tags:
+    - update
+    - webserver
+
+- name: stop services
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: yes
+  with_items:
+    - "{{ project_name }}"
+  become: true
+  tags:
+    - update
+    - webserver
+
+- name: Generate SSH Key
+  shell: "yes y | ssh-keygen -t rsa -b 4096 -C '{{ inventory_hostname }}' -N '' -f $HOME/.ssh/id_rsa"
+  args:
+    warn: false
+  tags:
+    - setup
+    - webserver
+    - setup_user
+
+- name: Set authorized key for SSH login w/o password
+  authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    state: present
+    key: "{{ lookup('file', home + '/.ssh/id_rsa.pub') }}"
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+  tags:
+    - setup
+    - webserver
+    - setup_user
+
+- name: Copy SSH configuration file
+  copy:
+    src: "{{ role_path }}/files/ssh.config"
+    dest: ~/.ssh/config
+  tags:
+    - setup
+    - webserver
+    - setup_user
+
+- name: Update RHEL7 yum
+  yum:
+    name: '*'
+    state: latest
+    skip_broken: yes
+  become: true
+  tags:
+    - setup
+    - webserver
+
+- name: Install RHEL7 packages
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - '@Development Tools'
+      - bzip2
+      - bzip2-devel
+      - emacs-nox
+      - epel-release
+      - erlang
+      - gcc
+      - gcc-c++
+      - golang
+      - htop
+      - libffi-devel
+      - lsof
+      - nano
+      - nginx
+      - make
+      - openssl-devel
+      - postgresql-devel
+      - postgresql-libs
+      - python-devel
+      - python-pip
+      - python-psycopg2
+      - python-virtualenv
+      - rh-python36-python-devel
+      - rabbitmq-server
+      - readline-devel
+      - redis
+      - screen
+      - sqlite
+      - sqlite-devel
+      - telnet-server
+      - zlib-devel
+  become: true
+  tags:
+    - setup
+    - webserver
+
+- name: Create deployment folder
+  file:
+    path: "{{ deploy_directory }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ svc_group }}"
+    mode: 0755
+    state: directory
+    recurse: yes
+  become: true
+  tags:
+    - setup
+    - update
+    - webserver
