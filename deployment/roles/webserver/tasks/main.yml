@@ -81,7 +81,6 @@
       - nano
       - nginx
       - make
-      - mysql-devel
       - openssl-devel
       - postgresql-devel
       - postgresql-libs
@@ -89,7 +88,7 @@
       - python-pip
       - python-psycopg2
       - python-virtualenv
-      - python36-devel
+      - rh-python36-python-devel
       - rabbitmq-server
       - readline-devel
       - redis
