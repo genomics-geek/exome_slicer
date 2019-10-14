@@ -284,3 +284,5 @@ exome_slicer/media/
 .pytest_cache/
 
 *.db
+
+*password.txt
