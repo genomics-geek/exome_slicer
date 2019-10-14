@@ -1,13 +1,12 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
-import { useFormInput, useWindowSize } from 'react-genomix/lib/hooks'
+import { useFormInput, useURLParams, useWindowSize } from 'react-genomix/lib/hooks'
 import { Grid } from 'semantic-ui-react'
 import { stringify } from 'query-string'
 
 import Alert from 'common/alert'
 import { DimmerLoading } from 'common/loaders'
-import { useQueryParams } from 'common/hooks'
 import { DownloadButton } from 'common/buttons'
 import { DataTable } from 'common/tables'
 
@@ -20,7 +19,7 @@ import Chart from './chart'
 const View = () => {
   const { innerHeight } = useWindowSize()
   const history = useHistory()
-  const variables = useQueryParams()
+  const { queryParameters: variables } = useURLParams()
   const { gene, mappingQuality, depth, mode } = variables
   const [filters, setFilter] = useFormInput(variables)
 
